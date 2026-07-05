@@ -1,0 +1,2335 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07111f" />
+  <title>Koo Kim (Delta Steiner) | Homepage</title>
+
+  <style>
+    :root {
+      --nav-h: 78px;
+      --max-w: 1240px;
+      --font-main: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-serif: Georgia, "Times New Roman", serif;
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 30px;
+      --cyan: #70e6ff;
+      --blue: #7da7ff;
+      --purple: #a78bfa;
+      --pink: #fb7185;
+      --edge: rgba(255,255,255,.14);
+      --edge-strong: rgba(255,255,255,.30);
+      --shadow-soft: 0 18px 60px rgba(0,0,0,.26);
+      --shadow-panel: 0 14px 42px rgba(0,0,0,.18);
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #07111f;
+      --ink: #eef6ff;
+      --muted: #aebbd4;
+      --muted-2: #7f8dac;
+      --panel: rgba(255,255,255,.065);
+      --panel-2: rgba(255,255,255,.038);
+      --nav: rgba(7,17,31,.82);
+      --menu-bg: rgba(7,17,31,.94);
+      --btn: rgba(255,255,255,.07);
+      --btn-hover: rgba(255,255,255,.13);
+      --hero-grad:
+        radial-gradient(circle at 10% 5%, rgba(112,230,255,.30), transparent 32%),
+        radial-gradient(circle at 85% 20%, rgba(167,139,250,.28), transparent 34%),
+        radial-gradient(circle at 50% 95%, rgba(251,113,133,.18), transparent 38%),
+        linear-gradient(135deg, #07111f 0%, #0b1730 52%, #120f2f 100%);
+    }
+
+    :root[data-theme="light"] {
+      --bg: #ffffff;
+      --ink: #101828;
+      --muted: #4b5568;
+      --muted-2: #667085;
+      --panel: rgba(255,255,255,.80);
+      --panel-2: rgba(255,255,255,.60);
+      --nav: rgba(255,255,255,.82);
+      --menu-bg: rgba(255,255,255,.95);
+      --btn: rgba(16,24,40,.055);
+      --btn-hover: rgba(16,24,40,.10);
+      --edge: rgba(16,24,40,.12);
+      --edge-strong: rgba(16,24,40,.24);
+      --shadow-soft: 0 18px 60px rgba(16,24,40,.12);
+      --shadow-panel: 0 14px 42px rgba(16,24,40,.10);
+      --hero-grad:
+        radial-gradient(circle at 8% 8%, rgba(112,230,255,.42), transparent 30%),
+        radial-gradient(circle at 88% 16%, rgba(167,139,250,.32), transparent 34%),
+        radial-gradient(circle at 52% 95%, rgba(251,113,133,.24), transparent 38%),
+        radial-gradient(circle at 28% 72%, rgba(250,204,21,.20), transparent 28%),
+        linear-gradient(135deg, #ffffff 0%, #f7fbff 56%, #fff6fb 100%);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-main);
+      color: var(--ink);
+      background: var(--hero-grad);
+      background-attachment: fixed;
+      padding-top: var(--nav-h);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.75), transparent 78%);
+      z-index: -1;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { color: inherit; border: 0; cursor: pointer; }
+
+    .sr-only {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-h);
+      z-index: 50;
+      backdrop-filter: blur(18px) saturate(150%);
+      background: linear-gradient(180deg, var(--nav), rgba(255,255,255,0));
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .nav {
+      max-width: var(--max-w);
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid var(--edge-strong);
+      box-shadow: 0 0 38px rgba(112,230,255,.22);
+      flex: 0 0 auto;
+      background: rgba(255,255,255,.05);
+    }
+
+    .brand-avatar img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+    }
+
+    .brand-name {
+      font-family: var(--font-serif);
+      font-size: 1.04rem;
+      white-space: nowrap;
+      letter-spacing: .01em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .nav-btn,
+    .menu summary {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: .58rem .88rem;
+      border: 1px solid var(--edge);
+      background: linear-gradient(135deg, var(--btn), rgba(255,255,255,.02));
+      color: var(--muted);
+      font-size: .80rem;
+      font-weight: 700;
+      letter-spacing: .015em;
+      white-space: nowrap;
+      clip-path: polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+      transition: transform .16s ease, background .16s ease, color .16s ease, border-color .16s ease;
+    }
+
+    .nav-btn:hover,
+    .menu summary:hover {
+      transform: translateY(-1px);
+      color: var(--ink);
+      background: linear-gradient(135deg, rgba(112,230,255,.16), rgba(167,139,250,.13), rgba(251,113,133,.10));
+      border-color: var(--edge-strong);
+    }
+
+    .theme-btn {
+      width: 42px;
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--edge);
+      background: linear-gradient(135deg, var(--btn), rgba(255,255,255,.02));
+      color: var(--ink);
+      clip-path: polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+      transition: transform .16s ease, background .16s ease, border-color .16s ease;
+    }
+
+    .theme-btn:hover {
+      background: linear-gradient(135deg, rgba(112,230,255,.16), rgba(167,139,250,.13), rgba(251,113,133,.10));
+      border-color: var(--edge-strong);
+      transform: translateY(-1px);
+    }
+
+    .theme-icon { width: 18px; height: 18px; }
+
+    .theme-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .theme-icon.sun { color: #f6b73c; }
+    .theme-icon.moon { color: #c8d3ff; }
+
+    :root[data-theme="dark"] .theme-icon.sun { display: none; }
+    :root[data-theme="light"] .theme-icon.moon { display: none; }
+
+    .menu { position: relative; }
+    .menu summary { list-style: none; cursor: pointer; }
+    .menu summary::-webkit-details-marker { display: none; }
+
+    .menu-panel {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      width: 220px;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      border: 1px solid var(--edge);
+      border-radius: var(--radius-md);
+      background: var(--menu-bg);
+      backdrop-filter: blur(18px) saturate(150%);
+      box-shadow: var(--shadow-soft);
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity .16s ease, transform .16s ease;
+    }
+
+    .menu[open] .menu-panel {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .menu-panel a {
+      padding: .64rem .72rem;
+      border: 1px solid var(--edge);
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      background: var(--btn);
+      font-size: .84rem;
+      font-weight: 650;
+    }
+
+    .menu-panel a:hover {
+      color: var(--ink);
+      background: var(--btn-hover);
+    }
+
+    .hamb {
+      display: none;
+      width: 42px;
+      height: 38px;
+      border: 1px solid var(--edge);
+      background: var(--btn);
+      color: var(--ink);
+      border-radius: var(--radius-sm);
+      justify-self: end;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: calc(var(--nav-h) + 10px);
+      right: 14px;
+      width: min(320px, calc(100vw - 28px));
+      z-index: 70;
+      padding: 12px;
+      border: 1px solid var(--edge);
+      border-radius: var(--radius-md);
+      background: var(--menu-bg);
+      backdrop-filter: blur(18px) saturate(150%);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .mobile-menu.open {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mobile-menu .nav-btn,
+    .mobile-menu .theme-btn,
+    .mobile-menu .menu summary {
+      width: 100%;
+      min-height: 44px;
+      justify-content: center;
+    }
+
+    .mobile-menu .theme-btn {
+      display: flex;
+    }
+
+    .mobile-menu .menu {
+      width: 100%;
+    }
+
+    .mobile-menu .menu-panel {
+      position: static;
+      width: 100%;
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+      box-shadow: none;
+      margin-top: 8px;
+    }
+
+    .mobile-menu .menu-panel a {
+      width: 100%;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    main {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 34px 20px 58px;
+    }
+
+    .panel {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--edge);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      box-shadow: var(--shadow-panel);
+    }
+
+    .hero-panel {
+      min-height: 560px;
+      padding: clamp(32px, 5vw, 64px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 34px;
+      text-align: center;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(112,230,255,.22), transparent 34%),
+        radial-gradient(circle at 80% 22%, rgba(167,139,250,.18), transparent 36%),
+        radial-gradient(circle at 52% 105%, rgba(251,113,133,.16), transparent 36%);
+    }
+
+    .hero-title {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 7.2vw, 7.1rem);
+      line-height: .95;
+      letter-spacing: -.07em;
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      animation: titlePop .95s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .hero-title .name-line { color: var(--ink); }
+
+    .hero-title .delta-line {
+      background: linear-gradient(100deg, var(--cyan), var(--blue), var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      white-space: nowrap;
+    }
+
+    .hero-copy {
+      max-width: 820px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+      line-height: 1.8;
+      position: relative;
+      z-index: 1;
+      animation: fadeRise .9s .16s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+      animation: fadeRise .9s .30s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: .72rem 1rem;
+      border: 1px solid var(--edge-strong);
+      background: linear-gradient(135deg, rgba(112,230,255,.18), rgba(167,139,250,.18), rgba(251,113,133,.14));
+      color: var(--ink);
+      font-weight: 800;
+      clip-path: polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
+      transition: transform .16s ease, border-color .16s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-1px);
+      border-color: var(--edge-strong);
+    }
+
+    .section { margin-top: 34px; }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: clamp(1.55rem, 3vw, 2.35rem);
+      letter-spacing: -.025em;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--edge-strong), transparent);
+    }
+
+    .reveal-section {
+      opacity: 0;
+      transform: translateY(28px);
+      filter: blur(8px);
+      transition: opacity .75s cubic-bezier(.22,1,.36,1), transform .75s cubic-bezier(.22,1,.36,1), filter .75s cubic-bezier(.22,1,.36,1);
+    }
+
+    .reveal-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .latest-news {
+      display: grid;
+      grid-template-columns: minmax(280px, .95fr) minmax(360px, 1.35fr);
+      gap: 18px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--edge);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(112,230,255,.18), transparent 32%),
+        radial-gradient(circle at 92% 18%, rgba(167,139,250,.16), transparent 34%),
+        radial-gradient(circle at 52% 110%, rgba(251,113,133,.12), transparent 38%),
+        linear-gradient(135deg, var(--panel), var(--panel-2));
+      box-shadow: var(--shadow-panel);
+    }
+
+    .news-feature {
+      min-height: 300px;
+      padding: 26px;
+      border-radius: 24px;
+      border: 1px solid var(--edge);
+      background:
+        radial-gradient(circle at 16% 12%, rgba(112,230,255,.22), transparent 34%),
+        linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.035));
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    :root[data-theme="light"] .news-feature,
+    :root[data-theme="light"] .news-mini {
+      background:
+        radial-gradient(circle at 16% 12%, rgba(112,230,255,.18), transparent 34%),
+        linear-gradient(145deg, rgba(255,255,255,.90), rgba(255,255,255,.58));
+    }
+
+    .news-kicker {
+      font-size: .72rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted-2);
+      font-weight: 800;
+    }
+
+    .news-feature h3 {
+      margin: 14px 0 0;
+      font-family: var(--font-serif);
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      line-height: 1.05;
+      letter-spacing: -.035em;
+    }
+
+    .news-feature p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      line-height: 1.68;
+    }
+
+    .news-feature-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      color: var(--muted-2);
+      font-weight: 750;
+    }
+
+    .news-open {
+      color: var(--ink);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .news-mini-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .news-mini {
+      padding: 20px;
+      border-radius: 22px;
+      border: 1px solid var(--edge);
+      background: linear-gradient(135deg, rgba(255,255,255,.105), rgba(255,255,255,.035));
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: center;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+
+    .news-mini:hover {
+      transform: translateY(-2px);
+      border-color: var(--edge-strong);
+      background: linear-gradient(135deg, rgba(112,230,255,.16), rgba(167,139,250,.12), rgba(251,113,133,.10));
+    }
+
+    .news-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(112,230,255,.25), rgba(167,139,250,.20), rgba(251,113,133,.18));
+      border: 1px solid var(--edge);
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .news-mini h3 { margin: 0; font-size: 1rem; }
+
+    .news-mini p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .news-mini-date {
+      color: var(--muted-2);
+      font-weight: 800;
+      font-size: .88rem;
+      white-space: nowrap;
+    }
+
+    .interest-stage {
+      position: relative;
+      padding: 24px;
+      border: 1px solid var(--edge);
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at 8% 8%, rgba(112,230,255,.18), transparent 32%),
+        radial-gradient(circle at 88% 16%, rgba(167,139,250,.18), transparent 36%),
+        radial-gradient(circle at 46% 102%, rgba(251,113,133,.12), transparent 38%),
+        linear-gradient(135deg, var(--panel), var(--panel-2));
+      box-shadow: var(--shadow-panel);
+      overflow: hidden;
+    }
+
+    .interest-stage::before {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border-radius: 28px;
+      border: 1px dashed rgba(255,255,255,.12);
+      pointer-events: none;
+    }
+
+    :root[data-theme="light"] .interest-stage::before {
+      border-color: rgba(16,24,40,.10);
+    }
+
+    .interest-grid-balanced {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .interest-card-balanced {
+      --rx: 0deg;
+      --ry: 0deg;
+      --tx: 0px;
+      --ty: 0px;
+      --px: 50%;
+      --py: 50%;
+      position: relative;
+      min-height: 320px;
+      border-radius: 28px;
+      border: 1px solid var(--edge);
+      overflow: hidden;
+      cursor: pointer;
+      isolation: isolate;
+      transform-style: preserve-3d;
+      transform: perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry)) translate3d(var(--tx), var(--ty), 0);
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+      box-shadow: 0 10px 26px rgba(0,0,0,.08);
+      background: rgba(255,255,255,.03);
+    }
+
+    .interest-card-balanced:hover {
+      border-color: var(--edge-strong);
+      box-shadow: 0 24px 60px rgba(0,0,0,.18);
+    }
+
+    .interest-card-balanced:focus-visible {
+      outline: 2px solid rgba(125,167,255,.7);
+      outline-offset: 3px;
+    }
+
+    .interest-bg {
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background:
+        radial-gradient(circle at var(--px) var(--py), rgba(112,230,255,.22), transparent 26%),
+        radial-gradient(circle at 86% 18%, rgba(167,139,250,.20), transparent 28%),
+        radial-gradient(circle at 26% 92%, rgba(251,113,133,.14), transparent 28%),
+        linear-gradient(145deg, rgba(255,255,255,.94), rgba(255,255,255,.58));
+      transition: transform .28s ease, filter .28s ease;
+    }
+
+    :root[data-theme="dark"] .interest-bg {
+      background:
+        radial-gradient(circle at var(--px) var(--py), rgba(112,230,255,.18), transparent 28%),
+        radial-gradient(circle at 86% 18%, rgba(167,139,250,.18), transparent 30%),
+        radial-gradient(circle at 26% 92%, rgba(251,113,133,.12), transparent 30%),
+        linear-gradient(145deg, rgba(255,255,255,.11), rgba(255,255,255,.04));
+    }
+
+    .interest-shine {
+      position: absolute;
+      inset: -140% -20%;
+      background: linear-gradient(115deg, transparent 28%, rgba(255,255,255,.34) 48%, transparent 68%);
+      transform: translateX(-55%) rotate(8deg);
+      opacity: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .interest-card-balanced:hover .interest-shine {
+      animation: sweep 1.15s ease forwards;
+    }
+
+    .interest-orbit {
+      position: absolute;
+      inset: -35%;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, rgba(112,230,255,0), rgba(112,230,255,.32), rgba(167,139,250,.32), rgba(251,113,133,.28), rgba(112,230,255,0));
+      filter: blur(42px);
+      opacity: .18;
+      z-index: -2;
+      animation: spin 12s linear infinite;
+      transition: opacity .25s ease;
+      pointer-events: none;
+    }
+
+    .interest-card-balanced:hover .interest-orbit,
+    .interest-card-balanced.is-open .interest-orbit {
+      opacity: .46;
+    }
+
+    .topic-label {
+      position: absolute;
+      top: 18px;
+      left: 20px;
+      z-index: 5;
+      padding: .36rem .62rem;
+      border-radius: 999px;
+      border: 1px solid var(--edge);
+      background: rgba(255,255,255,.14);
+      backdrop-filter: blur(12px);
+      color: var(--muted-2);
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      transition: transform .25s ease, color .25s ease;
+    }
+
+    :root[data-theme="dark"] .topic-label {
+      background: rgba(255,255,255,.05);
+    }
+
+    .interest-card-balanced:hover .topic-label,
+    .interest-card-balanced.is-open .topic-label {
+      transform: translateY(-1px);
+      color: var(--ink);
+    }
+
+    .interest-placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      z-index: 2;
+      font-family: var(--font-serif);
+      font-size: clamp(4.4rem, 7vw, 7rem);
+      font-weight: 800;
+      letter-spacing: -.08em;
+      line-height: 1;
+      color: rgba(16,24,40,.12);
+      text-shadow: 0 0 30px rgba(112,230,255,.18);
+      transition: opacity .38s ease, transform .52s cubic-bezier(.22,1,.36,1), filter .38s ease;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    :root[data-theme="dark"] .interest-placeholder {
+      color: rgba(255,255,255,.20);
+      text-shadow: 0 0 30px rgba(112,230,255,.20);
+    }
+
+    .interest-content {
+      position: absolute;
+      inset: 0;
+      padding: 22px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 16px;
+      opacity: 0;
+      transform: translateY(28px) scale(.96);
+      filter: blur(10px);
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .interest-card-balanced.is-open .interest-placeholder {
+      opacity: 0;
+      transform: scale(.65) rotate(-6deg);
+      filter: blur(10px);
+    }
+
+    .interest-card-balanced.is-open .interest-content {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+      pointer-events: auto;
+      animation: contentReveal .82s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .interest-card-balanced.is-open .interest-icon {
+      animation: iconBounce .8s .10s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .interest-card-balanced.is-open .interest-body h3 {
+      animation: textSlide .55s .12s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .interest-card-balanced.is-open .interest-body p {
+      animation: textSlide .55s .20s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .interest-card-balanced.is-open .interest-tags span:nth-child(1) {
+      animation: textSlide .55s .30s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .interest-card-balanced.is-open .interest-tags span:nth-child(2) {
+      animation: textSlide .55s .38s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .interest-card-balanced.is-open .interest-tags span:nth-child(3) {
+      animation: textSlide .55s .46s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .interest-card-top {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      min-height: 60px;
+    }
+
+    .interest-icon {
+      width: 62px;
+      height: 62px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 28% 25%, rgba(255,255,255,.34), transparent 34%),
+        linear-gradient(135deg, var(--cyan), var(--purple), var(--pink));
+      color: #ffffff;
+      box-shadow: 0 16px 32px rgba(112,230,255,.16);
+      flex: 0 0 auto;
+    }
+
+    .interest-icon svg {
+      width: 31px;
+      height: 31px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .interest-body {
+      align-self: center;
+      padding-top: 8px;
+    }
+
+    .interest-body h3 {
+      margin: 0;
+      font-size: clamp(1.35rem, 2vw, 1.8rem);
+      line-height: 1.08;
+      letter-spacing: -.045em;
+      color: var(--ink);
+    }
+
+    .interest-body p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.62;
+    }
+
+    .interest-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-self: end;
+    }
+
+    .interest-tags span {
+      padding: .38rem .62rem;
+      border-radius: 999px;
+      border: 1px solid var(--edge);
+      color: var(--muted);
+      background: rgba(255,255,255,.045);
+      font-size: .76rem;
+      font-weight: 750;
+      opacity: 0;
+    }
+
+    .interest-hint {
+      margin-top: 14px;
+      color: var(--muted-2);
+      font-size: .84rem;
+      text-align: center;
+    }
+
+    .center-action {
+      display: flex;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .publication-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: .85rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid var(--edge-strong);
+      background: linear-gradient(135deg, rgba(112,230,255,.22), rgba(167,139,250,.22), rgba(251,113,133,.16));
+      color: var(--ink);
+      font-weight: 850;
+      box-shadow: 0 14px 32px rgba(112,230,255,.12);
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: minmax(320px, .88fr) minmax(360px, 1.12fr);
+      gap: 16px;
+    }
+
+    .game-card {
+      padding: 22px;
+      border: 1px solid var(--edge);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      box-shadow: var(--shadow-panel);
+      overflow: hidden;
+    }
+
+    .game-card h3 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+    }
+
+    .game-meta {
+      margin-top: 4px;
+      color: var(--muted-2);
+      font-size: .76rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .sudoku-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      border: 1px solid var(--edge-strong);
+      background: rgba(255,255,255,.04);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .sudoku-cell {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border: 1px solid var(--edge);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink);
+      background: transparent;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .sudoku-cell:focus {
+      outline: none;
+      background: rgba(112,230,255,.12);
+    }
+
+    .sudoku-cell.fixed {
+      color: var(--muted);
+      background: rgba(255,255,255,.06);
+    }
+
+    .sudoku-cell.bad {
+      color: #ff8aa0;
+      background: rgba(251,113,133,.14);
+    }
+
+    .sudoku-cell:nth-child(3n) { border-right-color: var(--edge-strong); }
+    .sudoku-cell:nth-child(9n) { border-right-color: var(--edge); }
+
+    .sudoku-cell:nth-child(n+19):nth-child(-n+27),
+    .sudoku-cell:nth-child(n+46):nth-child(-n+54) {
+      border-bottom-color: var(--edge-strong);
+    }
+
+    .game-actions {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .game-btn {
+      min-height: 36px;
+      padding: .55rem .85rem;
+      border: 1px solid var(--edge);
+      background: var(--btn);
+      color: var(--ink);
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+    }
+
+    .game-btn:hover { background: var(--btn-hover); }
+
+    .game-status {
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .tetris-row {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr 230px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .tetris-canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid var(--edge-strong);
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+    }
+
+    .scorebox {
+      padding: 14px;
+      border: 1px solid var(--edge);
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,.04);
+    }
+
+    .score-title {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+    }
+
+    .score-form {
+      display: grid;
+      gap: 8px;
+    }
+
+    .score-form input {
+      width: 100%;
+      min-height: 36px;
+      padding: .5rem .62rem;
+      border: 1px solid var(--edge);
+      border-radius: var(--radius-sm);
+      color: var(--ink);
+      background: transparent;
+    }
+
+    .score-form input:focus {
+      outline: none;
+      border-color: var(--edge-strong);
+    }
+
+    .score-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+
+    .score-list {
+      margin-top: 12px;
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .score-list span {
+      color: var(--ink);
+      font-weight: 800;
+      margin-right: 4px;
+    }
+
+    .game-help {
+      margin-top: 12px;
+      color: var(--muted-2);
+      font-size: .84rem;
+      line-height: 1.55;
+    }
+
+    footer {
+      border-top: 1px solid var(--edge);
+      color: var(--muted-2);
+      padding: 24px 20px;
+      text-align: center;
+      font-size: .8rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    @keyframes titlePop {
+      0% { opacity: 0; transform: translateY(24px) scale(.96); filter: blur(10px); }
+      60% { opacity: 1; transform: translateY(-4px) scale(1.01); filter: blur(1px); }
+      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+
+    @keyframes fadeRise {
+      0% { opacity: 0; transform: translateY(20px); filter: blur(8px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    @keyframes contentReveal {
+      0% { opacity: 0; transform: translateY(28px) scale(.94); filter: blur(10px); }
+      60% { opacity: 1; transform: translateY(-3px) scale(1.01); filter: blur(1px); }
+      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+
+    @keyframes iconBounce {
+      0% { opacity: 0; transform: scale(.45) rotate(-14deg); }
+      58% { opacity: 1; transform: scale(1.14) rotate(4deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0); }
+    }
+
+    @keyframes textSlide {
+      0% { opacity: 0; transform: translateY(12px); filter: blur(5px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    @keyframes sweep {
+      0% { opacity: 0; transform: translateX(-60%) rotate(8deg); }
+      20% { opacity: .70; }
+      100% { opacity: 0; transform: translateX(58%) rotate(8deg); }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 1120px) {
+      .nav {
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
+
+      .brand-name {
+        max-width: calc(100vw - 128px);
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hamb {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .latest-news,
+      .games-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .interest-grid-balanced {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1121px) {
+      .mobile-menu,
+      .mobile-menu.open {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 740px) {
+      :root { --nav-h: 72px; }
+
+      .brand-name {
+        font-size: .92rem;
+        max-width: calc(100vw - 126px);
+      }
+
+      main {
+        padding: 18px 14px 44px;
+      }
+
+      .hero-panel,
+      .latest-news,
+      .interest-stage,
+      .game-card {
+        padding: 20px;
+      }
+
+      .hero-title {
+        font-size: clamp(2.6rem, 13vw, 4.5rem);
+      }
+
+      .hero-title .delta-line {
+        white-space: normal;
+      }
+
+      .news-mini {
+        grid-template-columns: auto 1fr;
+      }
+
+      .news-mini-date {
+        grid-column: 2;
+      }
+
+      .interest-grid-balanced,
+      .tetris-row {
+        grid-template-columns: 1fr;
+      }
+
+      .interest-card-balanced {
+        min-height: 300px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+
+      .reveal-section {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="nav">
+      <a class="brand" href="home.html" aria-label="Home">
+        <span class="brand-avatar" aria-hidden="true">
+          <img src="koowizard-favicon.png" alt="" />
+        </span>
+        <span class="brand-name">Koo Kim (Delta Steiner)</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a class="nav-btn" href="home.html">Home</a>
+        <a class="nav-btn" href="bio.html">Bio</a>
+        <a class="nav-btn" href="cv.html">CV</a>
+
+        <details class="menu">
+          <summary>Publications</summary>
+          <div class="menu-panel">
+            <a href="research.html">Research</a>
+            <a href="resources.html">Resources</a>
+            <a href="softwares.html">Softwares</a>
+          </div>
+        </details>
+
+        <a class="nav-btn" href="https://kookim121807.github.io/DELONEX/delonex.html">DELONEX</a>
+        <a class="nav-btn" href="daim-online-lab.html">DAIM Online Lab</a>
+        <a class="nav-btn" href="tutoring-services.html">Tutoring Services</a>
+        <a class="nav-btn" href="contact.html">Contact</a>
+
+        <button class="theme-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+          <span class="theme-icon sun" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="M4.93 4.93l1.41 1.41"></path>
+              <path d="M17.66 17.66l1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="M4.93 19.07l1.41-1.41"></path>
+              <path d="M17.66 6.34l1.41-1.41"></path>
+            </svg>
+          </span>
+
+          <span class="theme-icon moon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5z"></path>
+            </svg>
+          </span>
+        </button>
+      </nav>
+
+      <button class="hamb" id="hamb" type="button" aria-label="Open menu">≡</button>
+    </div>
+  </header>
+
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile Navigation">
+    <a class="nav-btn" href="home.html">Home</a>
+    <a class="nav-btn" href="bio.html">Bio</a>
+    <a class="nav-btn" href="cv.html">CV</a>
+
+    <details class="menu">
+      <summary>Publications</summary>
+      <div class="menu-panel">
+        <a href="research.html">Research</a>
+        <a href="resources.html">Resources</a>
+        <a href="softwares.html">Softwares</a>
+      </div>
+    </details>
+
+    <a class="nav-btn" href="https://kookim121807.github.io/DELONEX/delonex.html">DELONEX</a>
+    <a class="nav-btn" href="daim-online-lab.html">DAIM Online Lab</a>
+    <a class="nav-btn" href="tutoring-services.html">Tutoring Services</a>
+    <a class="nav-btn" href="contact.html">Contact</a>
+
+    <button class="theme-btn" id="themeToggleMobile" type="button" aria-label="Toggle theme">
+      <span class="theme-icon sun" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2"></path>
+          <path d="M12 20v2"></path>
+          <path d="M4.93 4.93l1.41 1.41"></path>
+          <path d="M17.66 17.66l1.41 1.41"></path>
+          <path d="M2 12h2"></path>
+          <path d="M20 12h2"></path>
+          <path d="M4.93 19.07l1.41-1.41"></path>
+          <path d="M17.66 6.34l1.41-1.41"></path>
+        </svg>
+      </span>
+
+      <span class="theme-icon moon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5z"></path>
+        </svg>
+      </span>
+    </button>
+  </nav>
+
+  <main>
+    <section class="hero-panel panel" id="home">
+      <h1 class="hero-title">
+        <span class="name-line">Koo Kim </span><span class="delta-line">(Delta Steiner)</span>
+      </h1>
+
+      <p class="hero-copy">
+        Yo, what’s up crew! Captain D. Steiner is here! Welcome abroad to my little internet chaos zone, the Koo Kim
+        (Delta Steiner) personal website. Looks like you landed on the main page,
+        so feel free to click around, poke the shiny buttons, and wander through
+        the rest of the site. The buttons below are basically the greatest hits,
+        the fun stuff, and the best place to start before you get lost by the unescapeable maze! Hahaha!
+      </p>
+
+      <div class="hero-actions">
+        <a class="cta" href="bio.html">Visit Bio</a>
+        <a class="cta" href="research.html">Visit Research</a>
+        <a class="cta" href="daim-online-lab.html">Visit DAIM Online Lab</a>
+      </div>
+    </section>
+
+    <section class="section reveal-section" aria-label="Latest News">
+      <div class="section-head">
+        <h2>Recent News</h2>
+        <span class="section-line"></span>
+      </div>
+
+      <div class="latest-news">
+        <a class="news-feature" href="home.html">
+          <div>
+            <div class="news-kicker">Most Recent Update</div>
+            <h3>New Personal Website Published</h3>
+            <p>
+              A 2026 version of my personal website has been published! Here you can acccess all of my works that I have done before and I am currently doing. This website includes my research, resources, softwares, services, contact informations, and my profile.
+            </p>
+          </div>
+
+          <div class="news-feature-foot">
+            <span>July. 5th. 2026</span>
+            <span class="news-open">Read more →</span>
+          </div>
+        </a>
+
+        <div class="news-mini-list">
+          <a class="news-mini" href="daim-online-lab.html">
+            <span class="news-num">01</span>
+            <div>
+              <h3>DAIM Online Lab</h3>
+              <p>A new online lab space for AI, Mathematics, and Open-Soruce Code that will lunch in 2029.</p>
+            </div>
+            <span class="news-mini-date">Open in 2029</span>
+          </a>
+
+          <a class="news-mini" href="tutoring-services.html">
+            <span class="news-num">02</span>
+            <div>
+              <h3>Tutoring Services</h3>
+              <p>A separate page for academic guidance, subjects teaching, and mentoring.</p>
+            </div>
+            <span class="news-mini-date">Active</span>
+          </a>
+
+          <a class="news-mini" href="softwares.html">
+            <span class="news-num">03</span>
+            <div>
+              <h3>AIDOS Software Project</h3>
+              <p>AIDOS first software is currently on construction with the concept of AI Chatbot</p>
+            </div>
+            <span class="news-mini-date">In Progress</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal-section" aria-label="Areas Of Interest For Publications">
+      <div class="section-head">
+        <h2>Areas Of Interest For Publications</h2>
+        <span class="section-line"></span>
+      </div>
+
+      <div class="interest-stage">
+        <div class="interest-grid-balanced">
+          <article class="interest-card-balanced" tabindex="0" data-card="01">
+            <div class="interest-bg"></div>
+            <div class="interest-orbit"></div>
+            <div class="interest-shine"></div>
+            <div class="topic-label">Topic 1</div>
+            <div class="interest-placeholder">01</div>
+
+            <div class="interest-content">
+              <div class="interest-card-top">
+                <div class="interest-icon">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <path d="M12 3v4"></path>
+                    <path d="M12 17v4"></path>
+                    <path d="M3 12h4"></path>
+                    <path d="M17 12h4"></path>
+                    <path d="M9.5 10.5h.01"></path>
+                    <path d="M14.5 10.5h.01"></path>
+                    <path d="M10 14c1.2.8 2.8.8 4 0"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="interest-body">
+                <h3>AI Agents</h3>
+                <p>Programming AI software that reason, plan, evaluate actions, and interact with complex environments.</p>
+              </div>
+              <div class="interest-tags">
+                <span>Chatbot</span>
+                <span>LLM</span>
+                <span>SLM</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="interest-card-balanced" tabindex="0" data-card="02">
+            <div class="interest-bg"></div>
+            <div class="interest-orbit"></div>
+            <div class="interest-shine"></div>
+            <div class="topic-label">Topic 2</div>
+            <div class="interest-placeholder">02</div>
+
+            <div class="interest-content">
+              <div class="interest-card-top">
+                <div class="interest-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 19c4-10 8-10 16 0"></path>
+                    <path d="M4 5h16"></path>
+                    <path d="M6 5v14"></path>
+                    <path d="M18 5v14"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="interest-body">
+                <h3>Applied Mathematics</h3>
+                <p>Connecting mathematical modeling, computation, inference, and optimization to real-life problems.</p>
+              </div>
+              <div class="interest-tags">
+                <span>Stats</span>
+                <span>Optimization</span>
+                <span>Logic</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="interest-card-balanced" tabindex="0" data-card="03">
+            <div class="interest-bg"></div>
+            <div class="interest-orbit"></div>
+            <div class="interest-shine"></div>
+            <div class="topic-label">Topic 3</div>
+            <div class="interest-placeholder">03</div>
+
+            <div class="interest-content">
+              <div class="interest-card-top">
+                <div class="interest-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M7 7h10v10H7z"></path>
+                    <path d="M3 3h5v5H3z"></path>
+                    <path d="M16 3h5v5h-5z"></path>
+                    <path d="M3 16h5v5H3z"></path>
+                    <path d="M16 16h5v5h-5z"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="interest-body">
+                <h3>Combinatorics</h3>
+                <p>Researching discrete structures, counting problems, extremal methods, and proof-driven mathematical systems.</p>
+              </div>
+              <div class="interest-tags">
+                <span>Discrete Mathematics</span>
+                <span>Proofs</span>
+                <span>Inference</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="interest-card-balanced" tabindex="0" data-card="04">
+            <div class="interest-bg"></div>
+            <div class="interest-orbit"></div>
+            <div class="interest-shine"></div>
+            <div class="topic-label">Topic 4</div>
+            <div class="interest-placeholder">04</div>
+
+            <div class="interest-content">
+              <div class="interest-card-top">
+                <div class="interest-icon">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="7" y="7" width="10" height="10" rx="1"></rect>
+                    <path d="M4 9h3"></path>
+                    <path d="M4 15h3"></path>
+                    <path d="M17 9h3"></path>
+                    <path d="M17 15h3"></path>
+                    <path d="M9 4v3"></path>
+                    <path d="M15 4v3"></path>
+                    <path d="M9 17v3"></path>
+                    <path d="M15 17v3"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="interest-body">
+                <h3>Computer Engineering</h3>
+                <p>Investigating hardware-software interaction, computing systems with datas, architecture, and efficient technical manufacturing.</p>
+              </div>
+              <div class="interest-tags">
+                <span>Computer Science</span>
+                <span>Electronics</span>
+                <span>Data</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="interest-card-balanced" tabindex="0" data-card="05">
+            <div class="interest-bg"></div>
+            <div class="interest-orbit"></div>
+            <div class="interest-shine"></div>
+            <div class="topic-label">Topic 5</div>
+            <div class="interest-placeholder">05</div>
+
+            <div class="interest-content">
+              <div class="interest-card-top">
+                <div class="interest-icon">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="4" y="5" width="16" height="12" rx="2"></rect>
+                    <path d="M8 21h8"></path>
+                    <path d="M12 17v4"></path>
+                    <path d="M9 10l-2 2 2 2"></path>
+                    <path d="M15 10l2 2-2 2"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="interest-body">
+                <h3>Computer Science</h3>
+                <p>Working on algorithms, programming languages, data structures, and computational applying.</p>
+              </div>
+              <div class="interest-tags">
+                <span>Algorithms</span>
+                <span>NLP</span>
+                <span>Data Structures</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="interest-card-balanced" tabindex="0" data-card="06">
+            <div class="interest-bg"></div>
+            <div class="interest-orbit"></div>
+            <div class="interest-shine"></div>
+            <div class="topic-label">Topic 6</div>
+            <div class="interest-placeholder">06</div>
+
+            <div class="interest-content">
+              <div class="interest-card-top">
+                <div class="interest-icon">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="6" cy="7" r="2"></circle>
+                    <circle cx="18" cy="7" r="2"></circle>
+                    <circle cx="12" cy="12" r="2"></circle>
+                    <circle cx="6" cy="17" r="2"></circle>
+                    <circle cx="18" cy="17" r="2"></circle>
+                    <path d="M8 7h8"></path>
+                    <path d="M7.7 8.3l2.6 2.4"></path>
+                    <path d="M16.3 8.3l-2.6 2.4"></path>
+                    <path d="M10.3 13.3l-2.6 2.4"></path>
+                    <path d="M13.7 13.3l2.6 2.4"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="interest-body">
+                <h3>Deep Learning</h3>
+                <p>Exploring neural networks, representation learning, training behavior, and applied AI model design into the program.</p>
+              </div>
+              <div class="interest-tags">
+                <span>Neural Nets</span>
+                <span>Training</span>
+                <span>Representation</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="interest-card-balanced" tabindex="0" data-card="07">
+            <div class="interest-bg"></div>
+            <div class="interest-orbit"></div>
+            <div class="interest-shine"></div>
+            <div class="topic-label">Topic 7</div>
+            <div class="interest-placeholder">07</div>
+
+            <div class="interest-content">
+              <div class="interest-card-top">
+                <div class="interest-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 3l1.4 4.2L18 8.5l-4.1 1.8L12 15l-1.9-4.7L6 8.5l4.6-1.3L12 3z"></path>
+                    <path d="M19 13l.8 2.4L22 16l-2.2.9L19 19l-.8-2.1L16 16l2.2-.6L19 13z"></path>
+                    <path d="M5 14l.7 2L8 17l-2.3.8L5 20l-.7-2.2L2 17l2.3-1L5 14z"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="interest-body">
+                <h3>Generative AI</h3>
+                <p>Investigating creative model behavior, text generation, multimodal systems, and practical AI tools.</p>
+              </div>
+              <div class="interest-tags">
+                <span>Generation</span>
+                <span>Multimodal</span>
+                <span>AI</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="interest-card-balanced" tabindex="0" data-card="08">
+            <div class="interest-bg"></div>
+            <div class="interest-orbit"></div>
+            <div class="interest-shine"></div>
+            <div class="topic-label">Topic 8</div>
+            <div class="interest-placeholder">08</div>
+
+            <div class="interest-content">
+              <div class="interest-card-top">
+                <div class="interest-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M13 2L4 14h7l-1 8 10-13h-7l1-7z"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="interest-body">
+                <h3>Machine Learning </h3>
+                <p>Building and evaluating scalable ML systems in both hardwares and softwares, benchmarks, infrastructure, and deployment workflows.</p>
+              </div>
+              <div class="interest-tags">
+                <span>Benchmarks</span>
+                <span>Infrastructure</span>
+                <span>Deployment</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="interest-card-balanced" tabindex="0" data-card="09">
+            <div class="interest-bg"></div>
+            <div class="interest-orbit"></div>
+            <div class="interest-shine"></div>
+            <div class="topic-label">Topic 9</div>
+            <div class="interest-placeholder">09</div>
+
+            <div class="interest-content">
+              <div class="interest-card-top">
+                <div class="interest-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M8 9l-4 3 4 3"></path>
+                    <path d="M16 9l4 3-4 3"></path>
+                    <path d="M14 4l-4 16"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="interest-body">
+                <h3>Software Engineering</h3>
+                <p>Designing reliable software systems with multiple programming languages and sources.</p>
+              </div>
+              <div class="interest-tags">
+                <span>Programming</span>
+                <span>Python</span>
+                <span>JavaScript</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="interest-hint">Click each Topic card to trigger the reveal animation.</div>
+
+      <div class="center-action">
+        <a class="publication-btn" href="research.html">Look At My Publications</a>
+      </div>
+    </section>
+
+    <section class="section reveal-section" id="warmup-games" aria-label="Warmup Games">
+      <div class="section-head">
+        <h2>Warmup Games</h2>
+        <span class="section-line"></span>
+      </div>
+
+      <div class="games-grid">
+        <article class="game-card" id="sudoku">
+          <h3>Sudoku</h3>
+          <div class="game-meta">9 × 9</div>
+
+          <div class="sudoku-grid" id="sudokuGrid" aria-label="Sudoku grid"></div>
+
+          <div class="game-actions">
+            <button class="game-btn" id="sudokuNew" type="button">New</button>
+            <button class="game-btn" id="sudokuCheck" type="button">Check</button>
+            <button class="game-btn" id="sudokuClear" type="button">Clear</button>
+            <div class="game-status" id="sudokuStatus" aria-live="polite"></div>
+          </div>
+        </article>
+
+        <article class="game-card" id="tetris">
+          <h3>Tetris</h3>
+          <div class="game-meta">Mini</div>
+
+          <div class="tetris-row">
+            <canvas class="tetris-canvas" id="tetrisCanvas" width="270" height="360" aria-label="Tetris game" tabindex="0"></canvas>
+
+            <div class="scorebox" aria-label="Player score submission">
+              <div class="score-title">Player Scores</div>
+
+              <div class="score-form">
+                <label>
+                  <span class="sr-only">Username</span>
+                  <input type="text" id="tetrisNameInput" placeholder="Username" />
+                </label>
+
+                <label>
+                  <span class="sr-only">ID Number</span>
+                  <input type="text" id="tetrisIdInput" placeholder="ID Number" readonly />
+                </label>
+
+                <div class="score-row">
+                  <label>
+                    <span class="sr-only">Score</span>
+                    <input type="number" id="tetrisScoreInput" placeholder="Score" readonly />
+                  </label>
+                  <button class="game-btn" id="tetrisSubmit" type="button">Submit</button>
+                </div>
+              </div>
+
+              <div class="score-list">
+                <div><span>1.</span> Guest • 0</div>
+                <div><span>2.</span> Player • 0</div>
+                <div><span>3.</span> Runner • 0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="game-actions">
+            <button class="game-btn" id="tetrisStart" type="button">Start</button>
+            <button class="game-btn" id="tetrisPause" type="button">Pause</button>
+            <button class="game-btn" id="tetrisReset" type="button">Reset</button>
+            <div class="game-status" id="tetrisStatus" aria-live="polite">Score: 0</div>
+          </div>
+
+          <div class="game-help">
+            Controls: ← → move, ↑ rotate, ↓ soft drop, Space hard drop.
+            Click or focus the canvas before playing.
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 Koo Kim(Delta Steiner) | Personal Website
+  </footer>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggles = [
+        document.getElementById("themeToggle"),
+        document.getElementById("themeToggleMobile")
+      ].filter(Boolean);
+
+      function setTheme(theme) {
+        root.setAttribute("data-theme", theme);
+        localStorage.setItem("site-theme", theme);
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", theme === "dark" ? "#07111f" : "#ffffff");
+      }
+
+      const stored = localStorage.getItem("site-theme");
+      setTheme(stored === "light" || stored === "dark" ? stored : "dark");
+
+      toggles.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const current = root.getAttribute("data-theme") || "dark";
+          setTheme(current === "dark" ? "light" : "dark");
+        });
+      });
+    })();
+
+    (function () {
+      const hamb = document.getElementById("hamb");
+      const mobileMenu = document.getElementById("mobileMenu");
+
+      if (!hamb || !mobileMenu) return;
+
+      hamb.addEventListener("click", () => {
+        mobileMenu.classList.toggle("open");
+      });
+
+      mobileMenu.addEventListener("click", (e) => {
+        if (e.target.closest("a")) mobileMenu.classList.remove("open");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!mobileMenu.classList.contains("open")) return;
+        if (!e.target.closest("#mobileMenu") && !e.target.closest("#hamb")) {
+          mobileMenu.classList.remove("open");
+        }
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 1120) {
+          mobileMenu.classList.remove("open");
+        }
+      });
+    })();
+
+    (function () {
+      const menus = document.querySelectorAll(".menu");
+
+      menus.forEach((menu) => {
+        menu.addEventListener("toggle", () => {
+          if (!menu.open) return;
+
+          menus.forEach((other) => {
+            if (other !== menu) other.open = false;
+          });
+        });
+      });
+    })();
+
+    (function () {
+      const revealItems = document.querySelectorAll(".reveal-section");
+
+      if (!("IntersectionObserver" in window)) {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.18 });
+
+      revealItems.forEach((item) => observer.observe(item));
+    })();
+
+    (function () {
+      const cards = document.querySelectorAll(".interest-card-balanced");
+
+      cards.forEach((card) => {
+        const resetTilt = () => {
+          card.style.setProperty("--rx", "0deg");
+          card.style.setProperty("--ry", "0deg");
+          card.style.setProperty("--tx", "0px");
+          card.style.setProperty("--ty", "0px");
+          card.style.setProperty("--px", "50%");
+          card.style.setProperty("--py", "50%");
+        };
+
+        const openCard = () => {
+          card.classList.toggle("is-open");
+        };
+
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width;
+          const y = (e.clientY - rect.top) / rect.height;
+
+          const ry = (x - 0.5) * 10;
+          const rx = (0.5 - y) * 10;
+          const tx = (x - 0.5) * 3;
+          const ty = (y - 0.5) * 3;
+
+          card.style.setProperty("--rx", `${rx}deg`);
+          card.style.setProperty("--ry", `${ry}deg`);
+          card.style.setProperty("--tx", `${tx}px`);
+          card.style.setProperty("--ty", `${ty}px`);
+          card.style.setProperty("--px", `${x * 100}%`);
+          card.style.setProperty("--py", `${y * 100}%`);
+        });
+
+        card.addEventListener("mouseleave", resetTilt);
+        card.addEventListener("click", openCard);
+
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openCard();
+          }
+        });
+
+        resetTilt();
+      });
+    })();
+
+    (function () {
+      const sudokuGrid = document.getElementById("sudokuGrid");
+      const sudokuStatus = document.getElementById("sudokuStatus");
+      const sudokuNew = document.getElementById("sudokuNew");
+      const sudokuCheck = document.getElementById("sudokuCheck");
+      const sudokuClear = document.getElementById("sudokuClear");
+
+      if (!sudokuGrid || !sudokuStatus || !sudokuNew || !sudokuCheck || !sudokuClear) return;
+
+      const puzzles = [
+        "530070000600195000098000060800060003400803001700020006060000280000419005000080079",
+        "009000000080605020501078000002000006000204000900000800000530902010702050000000300",
+        "600120384008459072000006005000264030070080006940003000310000050089700000502000190"
+      ];
+
+      function renderSudoku(puzzle) {
+        sudokuGrid.innerHTML = "";
+
+        for (let i = 0; i < 81; i++) {
+          const value = puzzle[i] || "0";
+          const cell = document.createElement("input");
+
+          cell.type = "text";
+          cell.inputMode = "numeric";
+          cell.maxLength = 1;
+          cell.className = "sudoku-cell";
+
+          if (value !== "0") {
+            cell.value = value;
+            cell.readOnly = true;
+            cell.classList.add("fixed");
+          }
+
+          cell.addEventListener("input", () => {
+            cell.value = cell.value.replace(/[^1-9]/g, "");
+          });
+
+          sudokuGrid.appendChild(cell);
+        }
+      }
+
+      function getGridValues() {
+        return Array.from(sudokuGrid.querySelectorAll(".sudoku-cell")).map((cell) => cell.value || "0");
+      }
+
+      function clearMarks() {
+        sudokuGrid.querySelectorAll(".sudoku-cell.bad").forEach((cell) => cell.classList.remove("bad"));
+      }
+
+      function markBad(index) {
+        sudokuGrid.children[index].classList.add("bad");
+      }
+
+      function checkSudoku() {
+        clearMarks();
+        const values = getGridValues();
+        let ok = true;
+
+        function checkUnit(indexes) {
+          const seen = {};
+
+          indexes.forEach((idx) => {
+            const value = values[idx];
+            if (value === "0") return;
+
+            if (seen[value] !== undefined) {
+              ok = false;
+              markBad(idx);
+              markBad(seen[value]);
+            } else {
+              seen[value] = idx;
+            }
+          });
+        }
+
+        for (let r = 0; r < 9; r++) {
+          const row = [];
+          for (let c = 0; c < 9; c++) row.push(r * 9 + c);
+          checkUnit(row);
+        }
+
+        for (let c = 0; c < 9; c++) {
+          const col = [];
+          for (let r = 0; r < 9; r++) col.push(r * 9 + c);
+          checkUnit(col);
+        }
+
+        for (let br = 0; br < 3; br++) {
+          for (let bc = 0; bc < 3; bc++) {
+            const box = [];
+
+            for (let r = 0; r < 3; r++) {
+              for (let c = 0; c < 3; c++) {
+                box.push((br * 3 + r) * 9 + (bc * 3 + c));
+              }
+            }
+
+            checkUnit(box);
+          }
+        }
+
+        sudokuStatus.textContent = ok ? "Looks good so far." : "Conflicts found.";
+      }
+
+      function clearSudoku() {
+        sudokuGrid.querySelectorAll(".sudoku-cell").forEach((cell) => {
+          if (!cell.readOnly) cell.value = "";
+        });
+
+        clearMarks();
+        sudokuStatus.textContent = "";
+      }
+
+      function newSudoku() {
+        const puzzle = puzzles[Math.floor(Math.random() * puzzles.length)];
+        renderSudoku(puzzle);
+        sudokuStatus.textContent = "";
+      }
+
+      sudokuNew.addEventListener("click", newSudoku);
+      sudokuCheck.addEventListener("click", checkSudoku);
+      sudokuClear.addEventListener("click", clearSudoku);
+
+      newSudoku();
+    })();
+
+    (function () {
+      const canvas = document.getElementById("tetrisCanvas");
+      const tStart = document.getElementById("tetrisStart");
+      const tPause = document.getElementById("tetrisPause");
+      const tReset = document.getElementById("tetrisReset");
+      const tStatus = document.getElementById("tetrisStatus");
+      const tScoreInput = document.getElementById("tetrisScoreInput");
+      const tNameInput = document.getElementById("tetrisNameInput");
+      const tIdInput = document.getElementById("tetrisIdInput");
+      const tSubmit = document.getElementById("tetrisSubmit");
+      const scoreList = document.querySelector(".score-list");
+
+      if (!canvas || !tStart || !tPause || !tReset || !tStatus) return;
+
+      const ctx = canvas.getContext("2d");
+      const COLS = 10;
+      const ROWS = 18;
+
+      let BLOCK = canvas.width / COLS;
+      let board = [];
+      let currentPiece = null;
+      let dropInterval = null;
+      let score = 0;
+      let paused = false;
+      let tetrisActive = false;
+
+      const colors = [
+        "transparent",
+        "#78f0ff",
+        "#fb7185",
+        "#fb923c",
+        "#facc15",
+        "#4ade80",
+        "#a78bfa",
+        "#f472b6"
+      ];
+
+      const shapes = [
+        [[1,1,1,1]],
+        [[1,1],[1,1]],
+        [[0,1,0],[1,1,1]],
+        [[1,0,0],[1,1,1]],
+        [[0,0,1],[1,1,1]],
+        [[0,1,1],[1,1,0]],
+        [[1,1,0],[0,1,1]]
+      ];
+
+      function resetBoard() {
+        board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+      }
+
+      function newPiece() {
+        const type = Math.floor(Math.random() * shapes.length);
+        const shape = shapes[type];
+
+        return {
+          x: Math.floor((COLS - shape[0].length) / 2),
+          y: 0,
+          shape,
+          type: type + 1
+        };
+      }
+
+      function drawCell(x, y, value) {
+        ctx.fillStyle = colors[value];
+        ctx.fillRect(x * BLOCK, y * BLOCK, BLOCK - 1, BLOCK - 1);
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let r = 0; r < ROWS; r++) {
+          for (let c = 0; c < COLS; c++) {
+            if (board[r][c]) drawCell(c, r, board[r][c]);
+          }
+        }
+
+        if (currentPiece) {
+          currentPiece.shape.forEach((row, r) => {
+            row.forEach((value, c) => {
+              if (value) drawCell(currentPiece.x + c, currentPiece.y + r, currentPiece.type);
+            });
+          });
+        }
+      }
+
+      function collide(piece, dx, dy, shape) {
+        for (let r = 0; r < shape.length; r++) {
+          for (let c = 0; c < shape[r].length; c++) {
+            if (!shape[r][c]) continue;
+
+            const nx = piece.x + c + dx;
+            const ny = piece.y + r + dy;
+
+            if (nx < 0 || nx >= COLS || ny >= ROWS) return true;
+            if (ny >= 0 && board[ny][nx]) return true;
+          }
+        }
+
+        return false;
+      }
+
+      function merge(piece) {
+        piece.shape.forEach((row, r) => {
+          row.forEach((value, c) => {
+            if (value && piece.y + r >= 0) {
+              board[piece.y + r][piece.x + c] = piece.type;
+            }
+          });
+        });
+      }
+
+      function rotate(shape) {
+        return shape[0].map((_, i) => shape.map((row) => row[i]).reverse());
+      }
+
+      function updateScoreDisplay() {
+        tStatus.textContent = "Score: " + score;
+        if (tScoreInput) tScoreInput.value = score;
+      }
+
+      function newPlayerId() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+      }
+
+      function sweep() {
+        let cleared = 0;
+
+        board = board.filter((row) => {
+          if (row.every(Boolean)) {
+            cleared++;
+            return false;
+          }
+
+          return true;
+        });
+
+        while (board.length < ROWS) board.unshift(Array(COLS).fill(0));
+
+        if (cleared) {
+          score += cleared * 100;
+          updateScoreDisplay();
+        }
+      }
+
+      function step() {
+        if (paused) return;
+        if (!currentPiece) currentPiece = newPiece();
+
+        if (!collide(currentPiece, 0, 1, currentPiece.shape)) {
+          currentPiece.y++;
+        } else {
+          merge(currentPiece);
+          sweep();
+          currentPiece = newPiece();
+
+          if (collide(currentPiece, 0, 0, currentPiece.shape)) {
+            clearInterval(dropInterval);
+            dropInterval = null;
+            tStatus.textContent = "Game over. Score: " + score;
+          }
+        }
+
+        draw();
+      }
+
+      function resizeTetris() {
+        const wrapper = canvas.parentElement;
+        const maxWidth = wrapper ? wrapper.clientWidth : 270;
+        const width = Math.min(360, maxWidth);
+
+        canvas.width = width;
+        canvas.height = Math.floor(width * (ROWS / COLS));
+        BLOCK = canvas.width / COLS;
+        draw();
+      }
+
+      function start() {
+        if (dropInterval) return;
+
+        paused = false;
+
+        if (!currentPiece) currentPiece = newPiece();
+
+        dropInterval = setInterval(step, 450);
+        canvas.focus();
+      }
+
+      function reset() {
+        clearInterval(dropInterval);
+        dropInterval = null;
+        score = 0;
+        paused = false;
+
+        resetBoard();
+        currentPiece = newPiece();
+        updateScoreDisplay();
+        draw();
+      }
+
+      function togglePause() {
+        paused = !paused;
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (!tetrisActive) return;
+        if (!currentPiece || paused) return;
+
+        if (["ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", " "].includes(e.key)) {
+          e.preventDefault();
+        }
+
+        if (e.key === "ArrowLeft" && !collide(currentPiece, -1, 0, currentPiece.shape)) currentPiece.x--;
+        if (e.key === "ArrowRight" && !collide(currentPiece, 1, 0, currentPiece.shape)) currentPiece.x++;
+        if (e.key === "ArrowDown" && !collide(currentPiece, 0, 1, currentPiece.shape)) currentPiece.y++;
+
+        if (e.key === "ArrowUp") {
+          const rotated = rotate(currentPiece.shape);
+          if (!collide(currentPiece, 0, 0, rotated)) currentPiece.shape = rotated;
+        }
+
+        if (e.key === " ") {
+          while (!collide(currentPiece, 0, 1, currentPiece.shape)) currentPiece.y++;
+        }
+
+        draw();
+      });
+
+      canvas.addEventListener("mouseenter", () => { tetrisActive = true; });
+      canvas.addEventListener("mouseleave", () => { tetrisActive = false; });
+      canvas.addEventListener("focus", () => { tetrisActive = true; });
+      canvas.addEventListener("blur", () => { tetrisActive = false; });
+
+      canvas.addEventListener("pointerdown", () => {
+        tetrisActive = true;
+        canvas.focus();
+      });
+
+      if (tSubmit && tNameInput && tIdInput && tScoreInput && scoreList) {
+        tSubmit.addEventListener("click", () => {
+          const name = tNameInput.value.trim();
+
+          if (!name) {
+            tStatus.textContent = "Enter a username to submit.";
+            return;
+          }
+
+          const entry = document.createElement("div");
+          entry.innerHTML = "<span>*</span> " + name + " • " + tScoreInput.value + " • ID " + tIdInput.value;
+          scoreList.prepend(entry);
+
+          tNameInput.value = "";
+          tIdInput.value = newPlayerId();
+        });
+      }
+
+      tStart.addEventListener("click", start);
+      tPause.addEventListener("click", togglePause);
+      tReset.addEventListener("click", reset);
+
+      window.addEventListener("resize", resizeTetris);
+
+      resetBoard();
+      currentPiece = newPiece();
+      updateScoreDisplay();
+
+      if (tIdInput) tIdInput.value = newPlayerId();
+
+      resizeTetris();
+      draw();
+    })();
+  </script>
+</body>
+</html>

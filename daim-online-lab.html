@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="icon" href="koowizard-favicon.png" type="image/png" />
+  <title>Koo Kim (Delta Steiner) | DAIM Online Lab</title>
+
+  <style>
+    :root {
+      --nav-h: 78px;
+      --max-w: 1260px;
+
+      --font-main: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-serif: Georgia, "Times New Roman", serif;
+      --font-script: "Brush Script MT", "Apple Chancery", "Lucida Handwriting", cursive;
+
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 30px;
+
+      --cyan: #70e6ff;
+      --blue: #7da7ff;
+      --purple: #a78bfa;
+      --pink: #fb7185;
+      --gold: #facc15;
+      --lime: #8ef7c5;
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #07111f;
+      --ink: #eef6ff;
+      --muted: #aebbd4;
+      --muted-2: #7f8dac;
+
+      --panel: rgba(255,255,255,.065);
+      --panel-2: rgba(255,255,255,.038);
+      --nav: rgba(7,17,31,.82);
+      --menu-bg: rgba(7,17,31,.94);
+      --btn: rgba(255,255,255,.07);
+      --btn-hover: rgba(255,255,255,.13);
+
+      --edge: rgba(255,255,255,.12);
+      --edge-strong: rgba(255,255,255,.24);
+
+      --shadow-soft: 0 18px 60px rgba(0,0,0,.26);
+      --shadow-panel: 0 14px 42px rgba(0,0,0,.18);
+
+      --hero-grad:
+        radial-gradient(circle at 8% 8%, rgba(112,230,255,.26), transparent 30%),
+        radial-gradient(circle at 88% 16%, rgba(167,139,250,.26), transparent 34%),
+        radial-gradient(circle at 52% 95%, rgba(251,113,133,.18), transparent 38%),
+        linear-gradient(135deg, #07111f 0%, #0b1730 52%, #120f2f 100%);
+    }
+
+    :root[data-theme="light"] {
+      --bg: #ffffff;
+      --ink: #101828;
+      --muted: #4b5568;
+      --muted-2: #667085;
+
+      --panel: rgba(255,255,255,.82);
+      --panel-2: rgba(255,255,255,.62);
+      --nav: rgba(255,255,255,.82);
+      --menu-bg: rgba(255,255,255,.95);
+      --btn: rgba(16,24,40,.055);
+      --btn-hover: rgba(16,24,40,.10);
+
+      --edge: rgba(16,24,40,.12);
+      --edge-strong: rgba(16,24,40,.22);
+
+      --shadow-soft: 0 18px 60px rgba(16,24,40,.12);
+      --shadow-panel: 0 14px 42px rgba(16,24,40,.10);
+
+      --hero-grad:
+        radial-gradient(circle at 8% 8%, rgba(112,230,255,.42), transparent 30%),
+        radial-gradient(circle at 88% 16%, rgba(167,139,250,.32), transparent 34%),
+        radial-gradient(circle at 52% 95%, rgba(251,113,133,.24), transparent 38%),
+        radial-gradient(circle at 28% 72%, rgba(250,204,21,.20), transparent 28%),
+        linear-gradient(135deg, #ffffff 0%, #f7fbff 56%, #fff6fb 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-main);
+      color: var(--ink);
+      background: var(--hero-grad);
+      background-attachment: fixed;
+      padding-top: var(--nav-h);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.75), transparent 78%);
+      z-index: -4;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      color: inherit;
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+      background: transparent;
+    }
+
+    #labCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+    }
+
+    .lab-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .formula-cloud {
+      position: absolute;
+      font-family: var(--font-serif);
+      color: rgba(125,167,255,.13);
+      font-size: clamp(2rem, 5vw, 5.8rem);
+      white-space: nowrap;
+      animation: formulaDrift 24s linear infinite;
+    }
+
+    .formula-cloud.one {
+      left: -10%;
+      top: 18%;
+    }
+
+    .formula-cloud.two {
+      right: -20%;
+      top: 58%;
+      animation-delay: 8s;
+      animation-direction: reverse;
+    }
+
+    .formula-cloud.three {
+      left: 18%;
+      bottom: 6%;
+      animation-delay: 14s;
+    }
+
+    .orbital-ring {
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      border: 1px solid rgba(112,230,255,.20);
+      border-radius: 50%;
+      right: 7%;
+      top: 18%;
+      animation: spinRing 22s linear infinite;
+    }
+
+    .orbital-ring::before,
+    .orbital-ring::after {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.95), rgba(112,230,255,.75), transparent 70%);
+      box-shadow: 0 0 28px rgba(112,230,255,.45);
+    }
+
+    .orbital-ring::before {
+      left: 28px;
+      top: 64px;
+    }
+
+    .orbital-ring::after {
+      right: 36px;
+      bottom: 72px;
+      background: radial-gradient(circle, rgba(255,255,255,.95), rgba(251,113,133,.70), transparent 70%);
+    }
+
+    @keyframes formulaDrift {
+      0% {
+        transform: translate3d(-60px, 0, 0) rotate(-4deg);
+      }
+
+      50% {
+        transform: translate3d(80px, -24px, 0) rotate(3deg);
+      }
+
+      100% {
+        transform: translate3d(-60px, 0, 0) rotate(-4deg);
+      }
+    }
+
+    @keyframes spinRing {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-h);
+      z-index: 50;
+      backdrop-filter: blur(18px) saturate(150%);
+      background: linear-gradient(180deg, var(--nav), rgba(255,255,255,0));
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .nav {
+      max-width: var(--max-w);
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid var(--edge-strong);
+      box-shadow: 0 0 38px rgba(112,230,255,.22);
+      flex: 0 0 auto;
+      background: rgba(255,255,255,.05);
+    }
+
+    .brand-avatar img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+    }
+
+    .brand-name {
+      font-family: var(--font-serif);
+      font-size: 1.04rem;
+      white-space: nowrap;
+      letter-spacing: .01em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .nav-btn,
+    .menu summary {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: .58rem .88rem;
+      border: 1px solid var(--edge);
+      background: linear-gradient(135deg, var(--btn), rgba(255,255,255,.02));
+      color: var(--muted);
+      font-size: .80rem;
+      font-weight: 700;
+      letter-spacing: .015em;
+      white-space: nowrap;
+      clip-path: polygon(
+        10px 0,
+        100% 0,
+        100% calc(100% - 10px),
+        calc(100% - 10px) 100%,
+        0 100%,
+        0 10px
+      );
+      transition: transform .16s ease, background .16s ease, color .16s ease, border-color .16s ease;
+    }
+
+    .nav-btn:hover,
+    .menu summary:hover {
+      transform: translateY(-1px);
+      color: var(--ink);
+      background: linear-gradient(135deg, rgba(112,230,255,.16), rgba(167,139,250,.13), rgba(251,113,133,.10));
+      border-color: var(--edge-strong);
+    }
+
+    .theme-btn {
+      width: 42px;
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--edge);
+      background: linear-gradient(135deg, var(--btn), rgba(255,255,255,.02));
+      color: var(--ink);
+      clip-path: polygon(
+        10px 0,
+        100% 0,
+        100% calc(100% - 10px),
+        calc(100% - 10px) 100%,
+        0 100%,
+        0 10px
+      );
+      transition: transform .16s ease, background .16s ease, border-color .16s ease;
+    }
+
+    .theme-btn:hover {
+      background: linear-gradient(135deg, rgba(112,230,255,.16), rgba(167,139,250,.13), rgba(251,113,133,.10));
+      border-color: var(--edge-strong);
+      transform: translateY(-1px);
+    }
+
+    .theme-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .theme-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .theme-icon.sun { color: #f6b73c; }
+    .theme-icon.moon { color: #c8d3ff; }
+
+    :root[data-theme="dark"] .theme-icon.sun { display: none; }
+    :root[data-theme="light"] .theme-icon.moon { display: none; }
+
+    .menu {
+      position: relative;
+    }
+
+    .menu summary {
+      list-style: none;
+      cursor: pointer;
+    }
+
+    .menu summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .menu-panel {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      width: 220px;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      border: 1px solid var(--edge);
+      border-radius: var(--radius-md);
+      background: var(--menu-bg);
+      backdrop-filter: blur(18px) saturate(150%);
+      box-shadow: var(--shadow-soft);
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity .16s ease, transform .16s ease;
+    }
+
+    .menu[open] .menu-panel {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .menu-panel a {
+      padding: .64rem .72rem;
+      border: 1px solid var(--edge);
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      background: var(--btn);
+      font-size: .84rem;
+      font-weight: 650;
+    }
+
+    .menu-panel a:hover {
+      color: var(--ink);
+      background: var(--btn-hover);
+    }
+
+    .hamb {
+      display: none;
+      width: 42px;
+      height: 38px;
+      border: 1px solid var(--edge);
+      background: var(--btn);
+      color: var(--ink);
+      border-radius: var(--radius-sm);
+      justify-self: end;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: calc(var(--nav-h) + 10px);
+      right: 14px;
+      width: min(320px, calc(100vw - 28px));
+      z-index: 70;
+      padding: 12px;
+      border: 1px solid var(--edge);
+      border-radius: var(--radius-md);
+      background: var(--menu-bg);
+      backdrop-filter: blur(18px) saturate(150%);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .mobile-menu.open {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mobile-menu .nav-btn,
+    .mobile-menu .theme-btn,
+    .mobile-menu .menu summary {
+      width: 100%;
+      min-height: 44px;
+      justify-content: center;
+    }
+
+    .mobile-menu .theme-btn {
+      display: flex;
+    }
+
+    .mobile-menu .menu {
+      width: 100%;
+    }
+
+    .mobile-menu .menu-panel {
+      position: static;
+      width: 100%;
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+      box-shadow: none;
+      margin-top: 8px;
+    }
+
+    .mobile-menu .menu-panel a {
+      width: 100%;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    main {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 34px 20px 58px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .shell {
+      position: relative;
+      display: grid;
+      gap: 24px;
+    }
+
+    .lab-hero {
+      position: relative;
+      min-height: 680px;
+      border-radius: 42px;
+      border: 1px solid var(--edge);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(112,230,255,.18), transparent 32%),
+        radial-gradient(circle at 92% 18%, rgba(167,139,250,.16), transparent 34%),
+        radial-gradient(circle at 52% 110%, rgba(251,113,133,.13), transparent 38%),
+        linear-gradient(135deg, var(--panel), var(--panel-2));
+      box-shadow: var(--shadow-panel);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      align-items: stretch;
+    }
+
+    .lab-hero::before {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border-radius: 30px;
+      border: 1px dashed var(--edge-strong);
+      pointer-events: none;
+    }
+
+    .hero-left {
+      padding: clamp(32px, 5vw, 64px);
+      display: grid;
+      align-content: center;
+      gap: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      width: fit-content;
+      padding: .44rem .72rem;
+      border-radius: 999px;
+      border: 1px solid var(--edge);
+      background: linear-gradient(135deg, rgba(112,230,255,.16), rgba(167,139,250,.13), rgba(251,113,133,.10));
+      color: var(--muted);
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-weight: 850;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: clamp(4rem, 8vw, 8rem);
+      line-height: .84;
+      letter-spacing: -.075em;
+      animation: heroTextIn .9s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .hero-title span {
+      display: block;
+      background: linear-gradient(100deg, var(--cyan), var(--blue), var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-line {
+      width: min(100%, 560px);
+      height: 2px;
+      background: linear-gradient(90deg, rgba(112,230,255,.78), rgba(167,139,250,.48), rgba(251,113,133,.35), transparent);
+      box-shadow: 0 0 24px rgba(112,230,255,.22);
+    }
+
+    .hero-copy {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.82;
+      font-size: clamp(1.03rem, 1.5vw, 1.18rem);
+      max-width: 720px;
+      animation: fadeRise .85s .20s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .hero-script {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--font-script);
+      font-size: clamp(1.35rem, 2vw, 1.85rem);
+      line-height: 1.6;
+      max-width: 720px;
+      animation: fadeRise .85s .30s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      animation: fadeRise .85s .40s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .lab-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: .72rem 1rem;
+      border: 1px solid var(--edge-strong);
+      background: linear-gradient(135deg, rgba(112,230,255,.20), rgba(167,139,250,.18), rgba(251,113,133,.14));
+      color: var(--ink);
+      font-weight: 850;
+      clip-path: polygon(
+        12px 0,
+        100% 0,
+        100% calc(100% - 12px),
+        calc(100% - 12px) 100%,
+        0 100%,
+        0 12px
+      );
+      transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+    }
+
+    .lab-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--edge-strong);
+      box-shadow: 0 12px 30px rgba(112,230,255,.18);
+    }
+
+    .hero-right {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 560px;
+      overflow: hidden;
+    }
+
+    .lab-core {
+      position: relative;
+      width: min(78%, 430px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid var(--edge-strong);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,.72), rgba(112,230,255,.24) 24%, rgba(167,139,250,.16) 44%, rgba(251,113,133,.08) 62%, transparent 72%);
+      box-shadow:
+        inset 0 0 58px rgba(255,255,255,.26),
+        0 0 44px rgba(112,230,255,.18),
+        0 0 96px rgba(167,139,250,.14);
+      display: grid;
+      place-items: center;
+      animation: corePulse 4.2s ease-in-out infinite;
+    }
+
+    .lab-core::before,
+    .lab-core::after {
+      content: "";
+      position: absolute;
+      inset: -28px;
+      border-radius: 50%;
+      border: 1px solid rgba(112,230,255,.22);
+      animation: orbitSpin 16s linear infinite;
+    }
+
+    .lab-core::after {
+      inset: -58px;
+      border-color: rgba(251,113,133,.18);
+      animation-duration: 24s;
+      animation-direction: reverse;
+    }
+
+    .core-text {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      display: grid;
+      gap: 8px;
+      padding: 24px;
+    }
+
+    .core-text span {
+      color: var(--muted-2);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .core-text strong {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 4vw, 4rem);
+      line-height: .9;
+      letter-spacing: -.06em;
+    }
+
+    .core-text em {
+      color: var(--muted);
+      font-style: normal;
+      line-height: 1.45;
+      font-size: .95rem;
+    }
+
+    .floating-chip {
+      position: absolute;
+      padding: .58rem .82rem;
+      border-radius: 999px;
+      border: 1px solid var(--edge);
+      background: rgba(255,255,255,.12);
+      backdrop-filter: blur(12px);
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      animation: chipFloat 5s ease-in-out infinite;
+    }
+
+    .chip-one { left: 12%; top: 19%; }
+    .chip-two { right: 10%; top: 30%; animation-delay: 1.2s; }
+    .chip-three { left: 18%; bottom: 22%; animation-delay: 2.3s; }
+    .chip-four { right: 14%; bottom: 18%; animation-delay: 3.4s; }
+
+    .section {
+      margin-top: 44px;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: clamp(1.85rem, 3vw, 3rem);
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+
+    .section-head span {
+      height: 1px;
+      background: linear-gradient(90deg, var(--edge-strong), transparent);
+      margin-bottom: 7px;
+    }
+
+    .lab-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .lab-card {
+      min-height: 245px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--edge);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(112,230,255,.12), transparent 32%),
+        radial-gradient(circle at 92% 18%, rgba(167,139,250,.12), transparent 34%),
+        linear-gradient(135deg, var(--panel), var(--panel-2));
+      box-shadow: var(--shadow-panel);
+      display: grid;
+      align-content: space-between;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .lab-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--edge-strong);
+      box-shadow: 0 22px 62px rgba(112,230,255,.14);
+    }
+
+    .lab-card .num {
+      color: var(--muted-2);
+      font-size: .75rem;
+      letter-spacing: .16em;
+      font-weight: 850;
+    }
+
+    .lab-card h3 {
+      margin: 22px 0 8px;
+      font-family: var(--font-serif);
+      font-size: 1.72rem;
+      letter-spacing: -.03em;
+    }
+
+    .lab-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .roadmap {
+      position: relative;
+      padding: clamp(24px, 4vw, 42px);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--edge);
+      background:
+        radial-gradient(circle at 8% 10%, rgba(112,230,255,.14), transparent 30%),
+        radial-gradient(circle at 92% 90%, rgba(251,113,133,.12), transparent 34%),
+        linear-gradient(135deg, var(--panel), var(--panel-2));
+      box-shadow: var(--shadow-panel);
+      overflow: hidden;
+    }
+
+    .roadmap-track {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      position: relative;
+    }
+
+    .roadmap-track::before {
+      content: "";
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      top: 34px;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(112,230,255,.72), rgba(167,139,250,.55), rgba(251,113,133,.38));
+      box-shadow: 0 0 24px rgba(112,230,255,.18);
+    }
+
+    .road-node {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      justify-items: center;
+      text-align: center;
+      gap: 12px;
+      padding-top: 2px;
+    }
+
+    .road-dot {
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--edge-strong);
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,.70), transparent 24%),
+        linear-gradient(135deg, rgba(112,230,255,.22), rgba(167,139,250,.18), rgba(251,113,133,.13));
+      box-shadow: 0 12px 30px rgba(112,230,255,.12);
+      font-weight: 950;
+    }
+
+    .road-node h3 {
+      margin: 6px 0 0;
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+    }
+
+    .road-node p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: .95rem;
+    }
+
+    .message-panel {
+      display: grid;
+      grid-template-columns: .42fr .58fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .letter {
+      padding: clamp(24px, 4vw, 42px);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--edge);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(112,230,255,.13), transparent 32%),
+        radial-gradient(circle at 88% 90%, rgba(251,113,133,.11), transparent 34%),
+        linear-gradient(135deg, var(--panel), var(--panel-2));
+      box-shadow: var(--shadow-panel);
+      display: grid;
+      align-content: center;
+      gap: 18px;
+    }
+
+    .letter h2 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 4vw, 4.2rem);
+      line-height: .95;
+      letter-spacing: -.055em;
+    }
+
+    .letter p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.82;
+    }
+
+    .signature {
+      margin-top: 8px;
+      font-family: var(--font-script);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--ink);
+    }
+
+    .lab-status {
+      padding: clamp(24px, 4vw, 42px);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--edge);
+      background:
+        linear-gradient(135deg, rgba(112,230,255,.12), rgba(167,139,250,.10), rgba(251,113,133,.08)),
+        linear-gradient(135deg, var(--panel), var(--panel-2));
+      box-shadow: var(--shadow-panel);
+      display: grid;
+      align-content: center;
+      gap: 18px;
+    }
+
+    .status-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--edge);
+      background: rgba(255,255,255,.045);
+    }
+
+    .status-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--edge);
+      background: linear-gradient(135deg, rgba(112,230,255,.18), rgba(167,139,250,.15));
+      font-weight: 950;
+    }
+
+    .status-row strong {
+      display: block;
+      margin-bottom: 4px;
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+    }
+
+    .status-row span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      filter: blur(8px);
+      transition:
+        opacity .75s cubic-bezier(.22,1,.36,1),
+        transform .75s cubic-bezier(.22,1,.36,1),
+        filter .75s cubic-bezier(.22,1,.36,1);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    footer {
+      border-top: 1px solid var(--edge);
+      color: var(--muted-2);
+      padding: 24px 20px;
+      text-align: center;
+      font-size: .8rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes heroTextIn {
+      0% {
+        opacity: 0;
+        transform: translateY(30px) scale(.96);
+        filter: blur(12px);
+      }
+
+      65% {
+        opacity: 1;
+        transform: translateY(-4px) scale(1.01);
+        filter: blur(1px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes fadeRise {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: blur(8px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes corePulse {
+      0%, 100% {
+        transform: scale(1);
+        filter: saturate(1);
+      }
+
+      50% {
+        transform: scale(1.035);
+        filter: saturate(1.28);
+      }
+    }
+
+    @keyframes orbitSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes chipFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-14px);
+      }
+    }
+
+    @media (max-width: 1120px) {
+      .nav {
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
+
+      .brand-name {
+        max-width: calc(100vw - 128px);
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hamb {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .lab-hero,
+      .message-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .lab-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .roadmap-track {
+        grid-template-columns: 1fr;
+      }
+
+      .roadmap-track::before {
+        display: none;
+      }
+
+      .floating-chip {
+        display: none;
+      }
+    }
+
+    @media (min-width: 1121px) {
+      .mobile-menu,
+      .mobile-menu.open {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 740px) {
+      :root {
+        --nav-h: 72px;
+      }
+
+      .brand-name {
+        font-size: .92rem;
+        max-width: calc(100vw - 126px);
+      }
+
+      main {
+        padding: 18px 14px 44px;
+      }
+
+      .lab-backdrop {
+        display: none;
+      }
+
+      .lab-hero {
+        display: grid;
+        grid-template-columns: 1fr;
+        min-height: auto;
+        border-radius: 28px;
+      }
+
+      .lab-hero::before {
+        inset: 12px;
+        border-radius: 22px;
+      }
+
+      .hero-left {
+        padding: 32px 18px 20px;
+        min-width: 0;
+        align-content: start;
+        justify-items: center;
+        text-align: center;
+        gap: 18px;
+      }
+
+      .hero-kicker {
+        max-width: calc(100% - 18px);
+        white-space: normal;
+        text-align: center;
+        justify-content: center;
+        letter-spacing: .14em;
+        font-size: .62rem;
+        line-height: 1.35;
+      }
+
+      .hero-title {
+        width: 100%;
+        max-width: 100%;
+        text-align: center;
+        font-size: clamp(3rem, 15.5vw, 4.35rem);
+        line-height: .9;
+        letter-spacing: -.06em;
+      }
+
+      .hero-title span {
+        overflow-wrap: normal;
+        word-break: normal;
+      }
+
+      .hero-line {
+        width: 100%;
+      }
+
+      .hero-script {
+        font-size: clamp(1.14rem, 5.8vw, 1.45rem);
+        line-height: 1.55;
+      }
+
+      .hero-copy {
+        font-size: .98rem;
+        line-height: 1.72;
+      }
+
+      .hero-actions {
+        width: 100%;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .lab-btn {
+        min-height: 42px;
+        padding: .68rem .86rem;
+        font-size: .95rem;
+      }
+
+      .hero-right {
+        display: grid;
+        min-height: 310px;
+        place-items: center;
+        padding: 10px 18px 34px;
+        overflow: visible;
+      }
+
+      .lab-core {
+        width: min(68vw, 260px);
+        max-width: 260px;
+      }
+
+      .lab-core::before {
+        inset: -18px;
+      }
+
+      .lab-core::after {
+        inset: -34px;
+      }
+
+      .core-text {
+        padding: 18px;
+        gap: 6px;
+      }
+
+      .core-text span {
+        font-size: .58rem;
+        letter-spacing: .14em;
+      }
+
+      .core-text strong {
+        font-size: clamp(2.2rem, 13vw, 3.3rem);
+      }
+
+      .core-text em {
+        font-size: .78rem;
+        line-height: 1.35;
+      }
+
+      .letter,
+      .lab-status,
+      .roadmap,
+      .lab-card {
+        padding: 20px;
+      }
+
+      .lab-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head span {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 980px) {
+      body {
+        background-attachment: scroll;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+
+      .reveal,
+      .hero-title,
+      .hero-copy,
+      .hero-script,
+      .hero-actions {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="labCanvas" aria-hidden="true"></canvas>
+
+  <div class="lab-backdrop" aria-hidden="true">
+    <div class="formula-cloud one">AI × Math × Open Source</div>
+    <div class="formula-cloud two">∑ code + proof + model + idea</div>
+    <div class="formula-cloud three">Delta’s AI Mathematics Online Lab</div>
+    <div class="orbital-ring"></div>
+  </div>
+
+  <header>
+    <div class="nav">
+      <a class="brand" href="home.html" aria-label="Home">
+        <span class="brand-avatar" aria-hidden="true">
+          <img src="koowizard-favicon.png" alt="" />
+        </span>
+        <span class="brand-name">Koo Kim (Delta Steiner)</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a class="nav-btn" href="home.html">Home</a>
+        <a class="nav-btn" href="bio.html">Bio</a>
+        <a class="nav-btn" href="cv.html">CV</a>
+
+        <details class="menu">
+          <summary>Publications</summary>
+          <div class="menu-panel">
+            <a href="research.html">Research</a>
+            <a href="resources.html">Resources</a>
+            <a href="softwares.html">Softwares</a>
+          </div>
+        </details>
+
+        <a class="nav-btn" href="https://kookim121807.github.io/DELONEX/delonex.html">DELONEX</a>
+        <a class="nav-btn" href="daim-online-lab.html">DAIM Online Lab</a>
+        <a class="nav-btn" href="tutoring-services.html">Tutoring Services</a>
+        <a class="nav-btn" href="contact.html">Contact</a>
+
+        <button class="theme-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+          <span class="theme-icon sun" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="M4.93 4.93l1.41 1.41"></path>
+              <path d="M17.66 17.66l1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="M4.93 19.07l1.41-1.41"></path>
+              <path d="M17.66 6.34l1.41-1.41"></path>
+            </svg>
+          </span>
+
+          <span class="theme-icon moon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5z"></path>
+            </svg>
+          </span>
+        </button>
+      </nav>
+
+      <button class="hamb" id="hamb" type="button" aria-label="Open menu">≡</button>
+    </div>
+  </header>
+
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile Navigation">
+    <a class="nav-btn" href="home.html">Home</a>
+    <a class="nav-btn" href="bio.html">Bio</a>
+    <a class="nav-btn" href="cv.html">CV</a>
+
+    <details class="menu">
+      <summary>Publications</summary>
+      <div class="menu-panel">
+        <a href="research.html">Research</a>
+        <a href="resources.html">Resources</a>
+        <a href="softwares.html">Softwares</a>
+      </div>
+    </details>
+
+    <a class="nav-btn" href="https://kookim121807.github.io/DELONEX/delonex.html">DELONEX</a>
+    <a class="nav-btn" href="daim-online-lab.html">DAIM Online Lab</a>
+    <a class="nav-btn" href="tutoring-services.html">Tutoring Services</a>
+    <a class="nav-btn" href="contact.html">Contact</a>
+
+    <button class="theme-btn" id="themeToggleMobile" type="button" aria-label="Toggle theme">
+      <span class="theme-icon sun" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2"></path>
+          <path d="M12 20v2"></path>
+          <path d="M4.93 4.93l1.41 1.41"></path>
+          <path d="M17.66 17.66l1.41 1.41"></path>
+          <path d="M2 12h2"></path>
+          <path d="M20 12h2"></path>
+          <path d="M4.93 19.07l1.41-1.41"></path>
+          <path d="M17.66 6.34l1.41-1.41"></path>
+        </svg>
+      </span>
+
+      <span class="theme-icon moon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5z"></path>
+        </svg>
+      </span>
+    </button>
+  </nav>
+
+  <main>
+    <div class="shell">
+      <section class="lab-hero">
+        <div class="hero-left">
+          <div class="hero-kicker">I welcome you to.....</div>
+
+          <h1 class="hero-title">
+            <span>DAIM Online Lab</span>
+          </h1>
+
+          <div class="hero-line"></div>
+
+          <p class="hero-script">
+            This is where Koo's (Delta’s) AI Mathematics experiments will eventually escape the textbook and become real things!
+          </p>
+
+          <p class="hero-copy">
+            DAIM Online Lab stands for <strong>Delta’s AI Mathematics Online Lab</strong>.
+            The service is planned to launch after I return from military service, likely sometime around 2029.
+            For now, this page is a future laboratory sign on the door: the machines are not fully built yet,
+            but the concept is still alive.
+          </p>
+
+          <div class="hero-actions">
+            <a class="lab-btn" href="#mission">Lab Missions</a>
+            <a class="lab-btn" href="#roadmap">Roadmap</a>
+            <a class="lab-btn" href="#message">Messages</a>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="floating-chip chip-one">Artificial Intelligence</div>
+          <div class="floating-chip chip-two">Mathematics</div>
+          <div class="floating-chip chip-three">Computer Science</div>
+          <div class="floating-chip chip-four">Open Source Codes</div>
+
+          <div class="lab-core">
+            <div class="core-text">
+              <span>Core Identity</span>
+              <strong>DAIM</strong>
+              <em>Delta’s AI Mathematics Online Lab</em>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="mission">
+        <div class="section-head">
+          <h2>Okay....What This Lab Is For?></h2>
+          <span></span>
+        </div>
+
+        <div class="lab-grid">
+          <article class="lab-card">
+            <span class="num">01</span>
+            <div>
+              <h3>Open Source Projects</h3>
+              <p>
+                I plan to create an open-source project on my GitHub about every two months related to AI and Mathematics.
+              </p>
+            </div>
+          </article>
+
+          <article class="lab-card">
+            <span class="num">02</span>
+            <div>
+              <h3>Community Edits</h3>
+              <p>
+                Anyone, no matter what background you have, can improve, edit, extend, or experiment with the project with me.
+              </p>
+            </div>
+          </article>
+
+          <article class="lab-card">
+            <span class="num">03</span>
+            <div>
+              <h3>Credit Chances</h3>
+              <p>
+                If you contribute effectively and leave your name clearly, I will credit you when the project is officially shown on the DAIM Lab page.
+              </p>
+            </div>
+          </article>
+
+          <article class="lab-card">
+            <span class="num">04</span>
+            <div>
+              <h3>Final Products</h3>
+              <p>
+                The goal is not just writing random programs. The goal is to turn creative ideas into useful mathematical, AI, or technical tools.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal" id="roadmap">
+        <div class="section-head">
+          <h2>Future Roadmap</h2>
+          <span></span>
+        </div>
+
+        <div class="roadmap">
+          <div class="roadmap-track">
+            <article class="road-node">
+              <div class="road-dot">01</div>
+              <h3>Now</h3>
+              <p>The concept page exists for now. However, my lab is still in its planning stage.</p>
+            </article>
+
+            <article class="road-node">
+              <div class="road-dot">02</div>
+              <h3>Military Service</h3>
+              <p>The project waits while I complete my military service period which is likely to be in 2029.</p>
+            </article>
+
+            <article class="road-node">
+              <div class="road-dot">03</div>
+              <h3>Launching Process</h3>
+              <p>The DAIM Online Lab is expected to start taking real shape and launch after I return completely.</p>
+            </article>
+
+            <article class="road-node">
+              <div class="road-dot">04</div>
+              <h3>Launch Mode</h3>
+              <p>Open-source math and AI projects begin appearing on GitHub and the DAIM Lab page as soon as it is completed.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="message">
+        <div class="section-head">
+          <h2>Message from Koo (Delta)</h2>
+          <span></span>
+        </div>
+
+        <div class="message-panel">
+          <article class="letter">
+            <h2>The Lab Is Not Open Yet</h2>
+
+            <p>
+              I do not know exactly how the final DAIM Online Lab website will look yet.
+              I will decide the actual design, structure, and launch format in the future.
+              For now, think of this page as a preview sign: the door is locked for present time, but the blueprint is already on the table!
+            </p>
+
+            <p>
+              When the lab opens, I want it to become a place where AI, mathematics, programming, and open collaboration can meet in a practical way with many talented people and students.
+              Not just theory. Not just pretty pages. Actual experiments, applications, and projects.
+            </p>
+
+            <div class="signature">Warm regards,<br>Koo Kim (Delta Steiner)</div>
+          </article>
+
+          <aside class="lab-status">
+            <div class="status-row">
+              <div class="status-icon">⏳</div>
+              <div>
+                <strong>Launch Status</strong>
+                <span>Not launched yet. Planned after military service, likely around 2029.</span>
+              </div>
+            </div>
+
+            <div class="status-row">
+              <div class="status-icon">⚙️</div>
+              <div>
+                <strong>Project Style</strong>
+                <span>Open-source AI and mathematics experiments, ideally released every two months.</span>
+              </div>
+            </div>
+
+            <div class="status-row">
+              <div class="status-icon">✦</div>
+              <div>
+                <strong>Contributor Credit</strong>
+                <span>Engaging and positively impactful contributors will be credited when projects are officially launched on the DAIM Lab page.</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 Koo Kim(Delta Steiner) | Personal Website
+  </footer>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggles = [
+        document.getElementById("themeToggle"),
+        document.getElementById("themeToggleMobile")
+      ].filter(Boolean);
+
+      function setTheme(theme) {
+        root.setAttribute("data-theme", theme);
+        localStorage.setItem("site-theme", theme);
+
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) {
+          meta.setAttribute("content", theme === "dark" ? "#07111f" : "#ffffff");
+        }
+      }
+
+      const stored = localStorage.getItem("site-theme");
+      setTheme(stored === "light" || stored === "dark" ? stored : "light");
+
+      toggles.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const current = root.getAttribute("data-theme") || "light";
+          setTheme(current === "dark" ? "light" : "dark");
+        });
+      });
+    })();
+
+    (function () {
+      const hamb = document.getElementById("hamb");
+      const mobileMenu = document.getElementById("mobileMenu");
+
+      if (!hamb || !mobileMenu) return;
+
+      hamb.addEventListener("click", () => {
+        mobileMenu.classList.toggle("open");
+      });
+
+      mobileMenu.addEventListener("click", (e) => {
+        if (e.target.closest("a")) {
+          mobileMenu.classList.remove("open");
+        }
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!mobileMenu.classList.contains("open")) return;
+
+        if (!e.target.closest("#mobileMenu") && !e.target.closest("#hamb")) {
+          mobileMenu.classList.remove("open");
+        }
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 1120) {
+          mobileMenu.classList.remove("open");
+        }
+      });
+    })();
+
+    (function () {
+      const menus = document.querySelectorAll(".menu");
+
+      menus.forEach((menu) => {
+        menu.addEventListener("toggle", () => {
+          if (!menu.open) return;
+
+          menus.forEach((other) => {
+            if (other !== menu) {
+              other.open = false;
+            }
+          });
+        });
+      });
+    })();
+
+    (function () {
+      const revealItems = document.querySelectorAll(".reveal");
+
+      if (!("IntersectionObserver" in window)) {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.18 });
+
+      revealItems.forEach((item) => observer.observe(item));
+    })();
+
+    (function () {
+      const canvas = document.getElementById("labCanvas");
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d");
+      let w = 0;
+      let h = 0;
+      const particles = [];
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+
+      function spawnParticle() {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: -0.25 + Math.random() * 0.5,
+          vy: -0.25 + Math.random() * 0.5,
+          r: 1.2 + Math.random() * 2.4,
+          a: 0.18 + Math.random() * 0.34,
+          hue: [190, 220, 265, 335][Math.floor(Math.random() * 4)]
+        });
+      }
+
+      function connectParticles() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const a = particles[i];
+            const b = particles[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 110) {
+              ctx.strokeStyle = "rgba(112,230,255," + ((110 - dist) / 110 * 0.10) + ")";
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      function tick() {
+        ctx.clearRect(0, 0, w, h);
+        ctx.globalCompositeOperation = "lighter";
+
+        if (particles.length < 90) {
+          for (let i = 0; i < 3; i++) spawnParticle();
+        }
+
+        connectParticles();
+
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < -20) p.x = w + 20;
+          if (p.x > w + 20) p.x = -20;
+          if (p.y < -20) p.y = h + 20;
+          if (p.y > h + 20) p.y = -20;
+
+          ctx.fillStyle = "hsla(" + p.hue + ", 90%, 65%, " + p.a + ")";
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        ctx.globalCompositeOperation = "source-over";
+        requestAnimationFrame(tick);
+      }
+
+      resize();
+      window.addEventListener("resize", resize);
+      tick();
+    })();
+  </script>
+</body>
+</html>
