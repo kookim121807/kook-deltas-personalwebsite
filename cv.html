@@ -604,7 +604,7 @@
       font-size: .92rem;
     }
 
-    .desktop-pdf-shell {
+    .pdf-shell {
       position: relative;
       width: 100%;
       height: min(78vh, 820px);
@@ -619,48 +619,25 @@
       box-shadow: inset 0 0 0 1px rgba(255,255,255,.035);
     }
 
+    .pdf-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), transparent 18%, transparent 84%, rgba(0,0,0,.12)),
+        radial-gradient(circle at 50% 0%, rgba(112,230,255,.10), transparent 44%);
+    }
+
     .cv-preview {
+      position: relative;
+      z-index: 1;
       width: 100%;
       height: 100%;
       border: 0;
       display: block;
       background: transparent;
-    }
-
-    .mobile-pdf-stack {
-      display: none;
-    }
-
-    .mobile-pdf-page {
-      width: 100%;
-      margin: 0 0 18px;
-      padding: 10px;
-      border-radius: 22px;
-      border: 1px solid var(--edge);
-      background:
-        radial-gradient(circle at 14% 12%, rgba(112,230,255,.10), transparent 34%),
-        radial-gradient(circle at 88% 24%, rgba(167,139,250,.10), transparent 36%),
-        rgba(255,255,255,.04);
-      box-shadow: 0 16px 34px rgba(0,0,0,.14);
-    }
-
-    .mobile-pdf-page img {
-      display: block;
-      width: 100%;
-      height: auto;
-      border-radius: 16px;
-      border: 1px solid rgba(0,0,0,.10);
-      background: #ffffff;
-    }
-
-    .mobile-pdf-page figcaption {
-      margin-top: 8px;
-      color: var(--muted-2);
-      font-size: .78rem;
-      text-align: center;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      font-weight: 800;
     }
 
     .cv-card-actions {
@@ -827,7 +804,7 @@
       }
 
       .cv-hero {
-        min-height: 300px;
+        min-height: 310px;
         padding: 26px 18px;
         border-radius: 28px;
       }
@@ -864,7 +841,7 @@
       .cv-version-card {
         padding: 12px;
         border-radius: 26px;
-        overflow: hidden;
+        overflow: visible;
       }
 
       .cv-version-head {
@@ -881,12 +858,19 @@
         display: block;
       }
 
-      .desktop-pdf-shell {
-        display: none;
+      .pdf-shell {
+        height: calc(100svh - 170px);
+        min-height: 520px;
+        max-height: 760px;
+        border-radius: 22px;
+        overflow: hidden;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
       }
 
-      .mobile-pdf-stack {
-        display: block;
+      .cv-preview {
+        width: 100%;
+        height: 100%;
       }
 
       .cv-card-actions {
@@ -911,12 +895,22 @@
         padding: 10px;
       }
 
+      .pdf-shell {
+        height: calc(100svh - 150px);
+        min-height: 500px;
+      }
+
       .brand-name {
         font-size: .94rem;
       }
     }
 
     @media (max-width: 370px) {
+      .pdf-shell {
+        height: calc(100svh - 135px);
+        min-height: 470px;
+      }
+
       .brand-name {
         font-size: .88rem;
       }
@@ -1070,19 +1064,19 @@
         <section class="cv-version-card" id="english-cv">
           <div class="cv-version-head">
             <div>
-              <h3>Koo Kim CV</h3>
+              <h3>My CV</h3>
               <p>
-                Desktop shows the embedded PDF. Mobile shows page images so it scrolls vertically without horizontal dragging.
               </p>
             </div>
             <span class="cv-badge">EN</span>
           </div>
 
           <p class="pdf-mobile-note">
-            Mobile preview is shown as page images to avoid sideways dragging and PDF cropping.
+            Mobile browsers sometimes crop embedded PDF previews. If the preview feels stuck or cut off, tap
+            <strong>Open PDF Full Screen</strong> below.
           </p>
 
-          <div class="desktop-pdf-shell">
+          <div class="pdf-shell">
             <iframe
               class="cv-preview"
               title="Koo Kim CV preview"
@@ -1090,18 +1084,6 @@
               loading="lazy"
               scrolling="yes">
             </iframe>
-          </div>
-
-          <div class="mobile-pdf-stack" aria-label="Mobile CV image preview">
-            <figure class="mobile-pdf-page">
-              <img src="koocv-page-1.png" alt="Koo Kim CV page 1" />
-              <figcaption>Page 01</figcaption>
-            </figure>
-
-            <figure class="mobile-pdf-page">
-              <img src="koocv-page-2.png" alt="Koo Kim CV page 2" />
-              <figcaption>Page 02</figcaption>
-            </figure>
           </div>
 
           <div class="cv-card-actions">
