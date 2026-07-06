@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="icon" href="koowizard-favicon.png" type="image/png" />
+  <title>Koo Kim | Delta Steiner</title>
+
+  <style>
+    :root {
+      --cyan: #70e6ff;
+      --blue: #7da7ff;
+      --purple: #a78bfa;
+      --pink: #fb7185;
+      --gold: #ffd166;
+
+      --font-main: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-serif: Georgia, "Times New Roman", serif;
+      --font-script: "Brush Script MT", "Apple Chancery", "Lucida Handwriting", cursive;
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #07111f;
+      --ink: #eef6ff;
+      --muted: #aebbd4;
+      --muted-2: #7f8dac;
+      --panel: rgba(255,255,255,.07);
+      --panel-2: rgba(255,255,255,.04);
+      --edge: rgba(255,255,255,.14);
+      --edge-strong: rgba(255,255,255,.28);
+      --btn: rgba(255,255,255,.08);
+      --btn-hover: rgba(255,255,255,.14);
+      --shadow: 0 24px 70px rgba(0,0,0,.38);
+
+      --hero-grad:
+        radial-gradient(circle at 10% 5%, rgba(112,230,255,.30), transparent 32%),
+        radial-gradient(circle at 85% 20%, rgba(167,139,250,.28), transparent 34%),
+        radial-gradient(circle at 50% 95%, rgba(251,113,133,.18), transparent 38%),
+        linear-gradient(135deg, #07111f 0%, #0b1730 52%, #120f2f 100%);
+
+      --door-a: #07111f;
+      --door-b: #151b3d;
+      --door-c: #2d1d55;
+      --door-edge: rgba(112,230,255,.28);
+    }
+
+    :root[data-theme="light"] {
+      --bg: #ffffff;
+      --ink: #101828;
+      --muted: #4b5568;
+      --muted-2: #667085;
+      --panel: rgba(255,255,255,.82);
+      --panel-2: rgba(255,255,255,.58);
+      --edge: rgba(16,24,40,.12);
+      --edge-strong: rgba(16,24,40,.24);
+      --btn: rgba(16,24,40,.055);
+      --btn-hover: rgba(16,24,40,.10);
+      --shadow: 0 24px 70px rgba(16,24,40,.16);
+
+      --hero-grad:
+        radial-gradient(circle at 8% 8%, rgba(112,230,255,.42), transparent 30%),
+        radial-gradient(circle at 88% 16%, rgba(167,139,250,.32), transparent 34%),
+        radial-gradient(circle at 52% 95%, rgba(251,113,133,.24), transparent 38%),
+        radial-gradient(circle at 28% 72%, rgba(250,204,21,.18), transparent 28%),
+        linear-gradient(135deg, #ffffff 0%, #f7fbff 56%, #fff6fb 100%);
+
+      --door-a: #f7fbff;
+      --door-b: #e9f7ff;
+      --door-c: #f7eefe;
+      --door-edge: rgba(125,167,255,.34);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-main);
+      color: var(--ink);
+      background: var(--hero-grad);
+      overflow: hidden;
+      padding: 24px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.72), transparent 78%);
+      z-index: -3;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      border: 0;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .aurora {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      opacity: .86;
+    }
+
+    .theme {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 80;
+      width: 44px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--edge);
+      background: linear-gradient(135deg, var(--btn), rgba(255,255,255,.02));
+      clip-path: polygon(
+        10px 0,
+        100% 0,
+        100% calc(100% - 10px),
+        calc(100% - 10px) 100%,
+        0 100%,
+        0 10px
+      );
+      backdrop-filter: blur(14px) saturate(150%);
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+
+    .theme:hover {
+      transform: translateY(-1px);
+      border-color: var(--edge-strong);
+      background: linear-gradient(135deg, rgba(112,230,255,.16), rgba(167,139,250,.13), rgba(251,113,133,.10));
+    }
+
+    .theme-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .theme-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .theme-icon.sun {
+      color: #f6b73c;
+    }
+
+    .theme-icon.moon {
+      color: #c8d3ff;
+    }
+
+    :root[data-theme="dark"] .theme-icon.sun {
+      display: none;
+    }
+
+    :root[data-theme="light"] .theme-icon.moon {
+      display: none;
+    }
+
+    .stage {
+      position: relative;
+      width: min(980px, calc(100vw - 32px));
+      min-height: min(640px, calc(100vh - 64px));
+      display: grid;
+      place-items: center;
+      perspective: 1600px;
+      isolation: isolate;
+    }
+
+    .portal-glow {
+      position: absolute;
+      inset: 6%;
+      border-radius: 44px;
+      background:
+        radial-gradient(circle at 50% 44%, rgba(112,230,255,.34), transparent 26%),
+        radial-gradient(circle at 50% 58%, rgba(167,139,250,.25), transparent 32%),
+        radial-gradient(circle at 50% 72%, rgba(251,113,133,.20), transparent 36%);
+      filter: blur(18px);
+      opacity: .72;
+      transform: scale(.96);
+      animation: pulseGlow 3.8s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .case-card {
+      position: relative;
+      z-index: 1;
+      width: min(760px, 100%);
+      padding: clamp(28px, 5vw, 52px);
+      border-radius: 34px;
+      border: 1px solid var(--edge);
+      background:
+        radial-gradient(circle at 16% 12%, rgba(112,230,255,.16), transparent 34%),
+        radial-gradient(circle at 84% 22%, rgba(167,139,250,.15), transparent 36%),
+        radial-gradient(circle at 50% 110%, rgba(251,113,133,.14), transparent 40%),
+        linear-gradient(135deg, var(--panel), var(--panel-2));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px) saturate(160%);
+      text-align: center;
+      overflow: hidden;
+      transform: translateY(18px) scale(.96);
+      opacity: 0;
+      animation: cardReveal .9s 1.45s cubic-bezier(.22,1,.36,1) forwards;
+    }
+
+    .case-card::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px dashed var(--edge);
+      border-radius: 26px;
+      pointer-events: none;
+    }
+
+    .case-card::after {
+      content: "CASE FILE";
+      position: absolute;
+      right: -32px;
+      bottom: 28px;
+      font-family: var(--font-serif);
+      font-size: clamp(2.4rem, 8vw, 6.4rem);
+      line-height: 1;
+      letter-spacing: -.07em;
+      color: rgba(125,167,255,.075);
+      transform: rotate(-8deg);
+      pointer-events: none;
+    }
+
+    .badge {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      margin-bottom: 18px;
+      padding: .42rem .78rem;
+      border-radius: 999px;
+      border: 1px solid var(--edge);
+      background: linear-gradient(135deg, rgba(112,230,255,.16), rgba(167,139,250,.13), rgba(251,113,133,.10));
+      color: var(--muted);
+      font-size: .72rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 850;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: clamp(2.3rem, 6.2vw, 5.4rem);
+      line-height: .94;
+      letter-spacing: -.06em;
+    }
+
+    h1 span {
+      display: block;
+      background: linear-gradient(100deg, var(--cyan), var(--blue), var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .script {
+      position: relative;
+      z-index: 2;
+      margin: 24px auto 0;
+      max-width: 620px;
+      font-family: var(--font-script);
+      font-size: clamp(1.18rem, 2vw, 1.55rem);
+      line-height: 1.55;
+      color: var(--ink);
+    }
+
+    .body-copy {
+      position: relative;
+      z-index: 2;
+      margin: 18px auto 0;
+      max-width: 610px;
+      color: var(--muted);
+      font-size: clamp(.96rem, 1.4vw, 1.08rem);
+      line-height: 1.75;
+    }
+
+    .countdown-row {
+      position: relative;
+      z-index: 2;
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .countdown {
+      min-width: 112px;
+      padding: .62rem .9rem;
+      border-radius: 999px;
+      border: 1px solid var(--edge);
+      background: rgba(255,255,255,.07);
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 850;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .enter-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: .68rem 1rem;
+      border: 1px solid var(--edge-strong);
+      background: linear-gradient(135deg, rgba(112,230,255,.18), rgba(167,139,250,.18), rgba(251,113,133,.14));
+      color: var(--ink);
+      font-weight: 850;
+      clip-path: polygon(
+        11px 0,
+        100% 0,
+        100% calc(100% - 11px),
+        calc(100% - 11px) 100%,
+        0 100%,
+        0 11px
+      );
+      transition: transform .16s ease, border-color .16s ease;
+    }
+
+    .enter-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--edge-strong);
+    }
+
+    .copyright {
+      position: relative;
+      z-index: 2;
+      margin-top: 22px;
+      color: var(--muted-2);
+      font-size: .72rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .door-system {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      pointer-events: none;
+      perspective: 1800px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(112,230,255,.20), transparent 24%),
+        linear-gradient(135deg, rgba(7,17,31,.94), rgba(18,15,47,.94));
+      animation: overlayFade .45s 2.25s ease forwards;
+    }
+
+    .door-left,
+    .door-right {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50.5%;
+      background:
+        linear-gradient(115deg, rgba(255,255,255,.06), transparent 18%, rgba(0,0,0,.10) 44%, transparent 70%),
+        radial-gradient(circle at 50% 18%, rgba(112,230,255,.18), transparent 26%),
+        radial-gradient(circle at 52% 72%, rgba(251,113,133,.12), transparent 30%),
+        linear-gradient(180deg, var(--door-b), var(--door-a) 54%, var(--door-c));
+      border: 1px solid var(--door-edge);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.04),
+        inset 0 0 90px rgba(0,0,0,.18),
+        0 0 42px rgba(112,230,255,.16);
+      overflow: hidden;
+    }
+
+    .door-left {
+      left: 0;
+      transform-origin: left center;
+      animation: openLeft 2.1s .55s cubic-bezier(.18,.84,.18,1) forwards;
+    }
+
+    .door-right {
+      right: 0;
+      transform-origin: right center;
+      animation: openRight 2.1s .55s cubic-bezier(.18,.84,.18,1) forwards;
+    }
+
+    .door-left::before,
+    .door-right::before {
+      content: "";
+      position: absolute;
+      inset: 36px;
+      border: 1px dashed rgba(255,255,255,.18);
+      border-radius: 28px;
+    }
+
+    .door-left::after,
+    .door-right::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 15px;
+      height: 15px;
+      border-radius: 999px;
+      background: radial-gradient(circle, var(--gold), rgba(255,209,102,.28));
+      box-shadow: 0 0 28px rgba(255,209,102,.50);
+      transform: translateY(-50%);
+    }
+
+    .door-left::after {
+      right: 28px;
+    }
+
+    .door-right::after {
+      left: 28px;
+    }
+
+    .light-slit {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, transparent, rgba(112,230,255,.95), rgba(251,113,133,.65), transparent);
+      box-shadow:
+        0 0 18px rgba(112,230,255,.75),
+        0 0 42px rgba(167,139,250,.48);
+      animation: slitExpand 1.8s .62s cubic-bezier(.22,1,.36,1) forwards;
+    }
+
+    .mystery-text {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 42;
+      text-align: center;
+      pointer-events: none;
+      animation: mysteryFade .75s 1.25s ease forwards;
+    }
+
+    .mystery-text .small {
+      display: inline-flex;
+      padding: .42rem .72rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.76);
+      font-size: .72rem;
+      letter-spacing: .25em;
+      font-weight: 900;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+    }
+
+    .mystery-text .large {
+      margin-top: 18px;
+      font-family: var(--font-serif);
+      font-size: clamp(2.6rem, 8vw, 7.2rem);
+      line-height: .86;
+      letter-spacing: -.07em;
+      background: linear-gradient(100deg, var(--cyan), var(--blue), var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 28px rgba(112,230,255,.12);
+    }
+
+    .footprints {
+      position: fixed;
+      inset: auto 0 6% 0;
+      z-index: 41;
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      opacity: .36;
+      animation: footprintsFade .8s 1.65s ease forwards;
+      pointer-events: none;
+    }
+
+    .print {
+      width: 18px;
+      height: 28px;
+      border-radius: 60% 60% 45% 45%;
+      background: rgba(255,255,255,.34);
+      transform: rotate(var(--r));
+      box-shadow: 0 0 18px rgba(112,230,255,.18);
+    }
+
+    .print:nth-child(1) { --r: -18deg; }
+    .print:nth-child(2) { --r: 14deg; }
+    .print:nth-child(3) { --r: -12deg; }
+    .print:nth-child(4) { --r: 18deg; }
+    .print:nth-child(5) { --r: -16deg; }
+
+    .flash {
+      position: fixed;
+      inset: 0;
+      z-index: 39;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.95), rgba(112,230,255,.20), transparent 64%);
+      opacity: 0;
+      animation: flashBang .52s 1.38s ease forwards;
+    }
+
+    @keyframes openLeft {
+      0% {
+        transform: rotateY(0deg) translateX(0);
+        filter: brightness(1);
+      }
+      38% {
+        transform: rotateY(-32deg) translateX(-2%);
+        filter: brightness(1.08);
+      }
+      100% {
+        transform: rotateY(-82deg) translateX(-14%);
+        filter: brightness(.72);
+      }
+    }
+
+    @keyframes openRight {
+      0% {
+        transform: rotateY(0deg) translateX(0);
+        filter: brightness(1);
+      }
+      38% {
+        transform: rotateY(32deg) translateX(2%);
+        filter: brightness(1.08);
+      }
+      100% {
+        transform: rotateY(82deg) translateX(14%);
+        filter: brightness(.72);
+      }
+    }
+
+    @keyframes slitExpand {
+      0% {
+        width: 3px;
+        opacity: 1;
+      }
+      45% {
+        width: 42vw;
+        opacity: .92;
+      }
+      100% {
+        width: 120vw;
+        opacity: 0;
+      }
+    }
+
+    @keyframes overlayFade {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    @keyframes mysteryFade {
+      to {
+        opacity: 0;
+        filter: blur(10px);
+        transform: translate(-50%, -52%) scale(.96);
+      }
+    }
+
+    @keyframes footprintsFade {
+      to {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+    }
+
+    @keyframes flashBang {
+      0% { opacity: 0; }
+      18% { opacity: .9; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes cardReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        opacity: .58;
+        transform: scale(.96);
+      }
+      50% {
+        opacity: .86;
+        transform: scale(1.02);
+      }
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 16px;
+      }
+
+      .stage {
+        width: 100%;
+        min-height: calc(100vh - 32px);
+      }
+
+      .case-card {
+        padding: 30px 22px;
+      }
+
+      .door-left::before,
+      .door-right::before {
+        inset: 22px;
+        border-radius: 20px;
+      }
+
+      .mystery-text .large {
+        font-size: clamp(2.6rem, 15vw, 5rem);
+      }
+
+      .countdown-row {
+        flex-direction: column;
+      }
+
+      .enter-btn,
+      .countdown {
+        width: min(260px, 100%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .door-system,
+      .flash {
+        display: none;
+      }
+
+      .case-card {
+        opacity: 1;
+        transform: none;
+      }
+
+      .portal-glow {
+        animation: none;
+      }
+
+      .aurora {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas class="aurora" id="auroraCanvas" aria-hidden="true"></canvas>
+
+  <button class="theme" id="themeToggle" aria-label="Toggle theme">
+    <span class="theme-icon sun" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2"></path>
+        <path d="M12 20v2"></path>
+        <path d="M4.93 4.93l1.41 1.41"></path>
+        <path d="M17.66 17.66l1.41 1.41"></path>
+        <path d="M2 12h2"></path>
+        <path d="M20 12h2"></path>
+        <path d="M4.93 19.07l1.41-1.41"></path>
+        <path d="M17.66 6.34l1.41-1.41"></path>
+      </svg>
+    </span>
+
+    <span class="theme-icon moon" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5z"></path>
+      </svg>
+    </span>
+  </button>
+
+  <div class="door-system" aria-hidden="true">
+    <div class="door-left"></div>
+    <div class="door-right"></div>
+    <div class="light-slit"></div>
+
+    <div class="mystery-text">
+      <div class="small">The Website Case Opens</div>
+      <div class="large">Koo Kim (Delta Steiner)</div>
+    </div>
+
+    <div class="footprints">
+      <span class="print"></span>
+      <span class="print"></span>
+      <span class="print"></span>
+      <span class="print"></span>
+      <span class="print"></span>
+    </div>
+  </div>
+
+  <div class="flash" aria-hidden="true"></div>
+
+  <main class="stage">
+    <div class="portal-glow" aria-hidden="true"></div>
+
+    <section class="case-card">
+      <div class="badge">Personal Website Entrance</div>
+
+      <h1>
+        Welcome to
+        <span>Koo Kim (Delta Steiner)'s </span>
+        Personal Website
+      </h1>
+
+      <p class="script">
+        The door is open. The case file is loading. Welcome to my personal website!
+      </p>
+
+      <p class="body-copy">
+        You will be redirected to the homepage automatically. Click the button below if you want to enter immediately.
+      </p>
+
+      <div class="countdown-row">
+        <div class="countdown" id="countdown">Entering in 5</div>
+        <a class="enter-btn" href="home.html">Enter Homepage</a>
+      </div>
+
+      <div class="copyright">
+        © 2026 Koo Kim(Delta Steiner) | Personal Website
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggle = document.getElementById("themeToggle");
+
+      function setTheme(theme) {
+        root.setAttribute("data-theme", theme);
+        localStorage.setItem("site-theme", theme);
+
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) {
+          meta.setAttribute("content", theme === "dark" ? "#07111f" : "#ffffff");
+        }
+      }
+
+      const stored = localStorage.getItem("site-theme");
+      if (stored === "light" || stored === "dark") {
+        setTheme(stored);
+      } else {
+        setTheme("light");
+      }
+
+      if (toggle) {
+        toggle.addEventListener("click", function () {
+          const current = root.getAttribute("data-theme") || "light";
+          setTheme(current === "dark" ? "light" : "dark");
+        });
+      }
+    })();
+
+    (function () {
+      const countdown = document.getElementById("countdown");
+      let left = 5;
+
+      function updateCountdown() {
+        if (!countdown) return;
+        countdown.textContent = "Entering in " + left;
+      }
+
+      updateCountdown();
+
+      const timer = setInterval(function () {
+        left -= 1;
+
+        if (left <= 0) {
+          clearInterval(timer);
+          window.location.href = "home.html";
+          return;
+        }
+
+        updateCountdown();
+      }, 1000);
+    })();
+
+    (function () {
+      const canvas = document.getElementById("auroraCanvas");
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d");
+
+      let w = 0;
+      let h = 0;
+      let dpr = 1;
+      let stars = [];
+      let particles = [];
+
+      const bands = [
+        { y: 0.18, amp: 52, speed: 0.45, width: 130, hue: 188, phase: Math.random() * 10 },
+        { y: 0.31, amp: 62, speed: 0.34, width: 160, hue: 225, phase: Math.random() * 10 },
+        { y: 0.43, amp: 44, speed: 0.28, width: 150, hue: 268, phase: Math.random() * 10 },
+        { y: 0.58, amp: 38, speed: 0.22, width: 120, hue: 325, phase: Math.random() * 10 }
+      ];
+
+      function random(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = window.innerWidth;
+        h = window.innerHeight;
+
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        canvas.style.width = w + "px";
+        canvas.style.height = h + "px";
+
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        seedStars();
+        seedParticles();
+      }
+
+      function seedStars() {
+        stars = [];
+        const count = Math.min(120, Math.floor((w * h) / 11000));
+
+        for (let i = 0; i < count; i++) {
+          stars.push({
+            x: random(0, w),
+            y: random(0, h),
+            r: random(0.5, 1.9),
+            alpha: random(0.12, 0.45),
+            pulse: random(0.6, 1.8),
+            phase: random(0, Math.PI * 2)
+          });
+        }
+      }
+
+      function seedParticles() {
+        particles = [];
+        const count = Math.min(70, Math.floor(w / 18));
+
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x: random(0, w),
+            y: random(0, h),
+            r: random(1.2, 3.8),
+            vx: random(-0.16, 0.22),
+            vy: random(-0.16, 0.12),
+            alpha: random(0.08, 0.22),
+            hue: random(185, 320)
+          });
+        }
+      }
+
+      function drawAuroraBand(band, time) {
+        const baseY = h * band.y;
+        const waveTime = time * band.speed + band.phase;
+
+        ctx.beginPath();
+
+        for (let x = -80; x <= w + 80; x += 18) {
+          const p = x / Math.max(w, 1);
+
+          const y =
+            baseY +
+            Math.sin(p * Math.PI * 2.0 + waveTime) * band.amp +
+            Math.sin(p * Math.PI * 4.3 + waveTime * 0.72) * (band.amp * 0.35) +
+            Math.cos(p * Math.PI * 3.1 + waveTime * 0.42) * (band.amp * 0.22);
+
+          if (x === -80) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+
+        for (let x = w + 80; x >= -80; x -= 18) {
+          const p = x / Math.max(w, 1);
+
+          const y =
+            baseY +
+            band.width +
+            Math.sin(p * Math.PI * 2.0 + waveTime + 0.8) * (band.amp * 0.42) +
+            Math.sin(p * Math.PI * 3.5 + waveTime * 0.58) * (band.amp * 0.24);
+
+          ctx.lineTo(x, y);
+        }
+
+        ctx.closePath();
+
+        const grad = ctx.createLinearGradient(0, baseY - band.amp, w, baseY + band.width + band.amp);
+        grad.addColorStop(0.00, "hsla(" + band.hue + ", 95%, 68%, 0)");
+        grad.addColorStop(0.20, "hsla(" + band.hue + ", 95%, 68%, 0.18)");
+        grad.addColorStop(0.48, "hsla(" + (band.hue + 32) + ", 95%, 70%, 0.28)");
+        grad.addColorStop(0.72, "hsla(" + (band.hue + 68) + ", 95%, 70%, 0.16)");
+        grad.addColorStop(1.00, "hsla(" + (band.hue + 90) + ", 95%, 68%, 0)");
+
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        ctx.beginPath();
+
+        for (let x = -80; x <= w + 80; x += 20) {
+          const p = x / Math.max(w, 1);
+
+          const y =
+            baseY +
+            Math.sin(p * Math.PI * 2.0 + waveTime + 0.2) * band.amp +
+            Math.sin(p * Math.PI * 4.3 + waveTime * 0.72) * (band.amp * 0.35);
+
+          if (x === -80) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+
+        ctx.strokeStyle = "hsla(" + band.hue + ", 100%, 74%, 0.23)";
+        ctx.lineWidth = 2;
+        ctx.lineCap = "round";
+        ctx.stroke();
+      }
+
+      function drawStars(time) {
+        for (const star of stars) {
+          const alpha = star.alpha * (0.65 + Math.sin(time * star.pulse + star.phase) * 0.35);
+
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255,255,255," + Math.max(0, alpha) + ")";
+          ctx.fill();
+        }
+      }
+
+      function drawParticles(time) {
+        for (const p of particles) {
+          p.x += p.vx + Math.sin(time * 0.35 + p.y * 0.01) * 0.05;
+          p.y += p.vy + Math.cos(time * 0.28 + p.x * 0.01) * 0.04;
+
+          if (p.x < -20) p.x = w + 20;
+          if (p.x > w + 20) p.x = -20;
+          if (p.y < -20) p.y = h + 20;
+          if (p.y > h + 20) p.y = -20;
+
+          const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 8);
+          glow.addColorStop(0, "hsla(" + p.hue + ", 95%, 75%, " + p.alpha + ")");
+          glow.addColorStop(1, "hsla(" + p.hue + ", 95%, 75%, 0)");
+
+          ctx.fillStyle = glow;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * 8, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function tick(now) {
+        const time = now * 0.001;
+
+        ctx.clearRect(0, 0, w, h);
+
+        const wash = ctx.createLinearGradient(0, 0, w, h);
+        wash.addColorStop(0, "rgba(112,230,255,0.08)");
+        wash.addColorStop(0.45, "rgba(167,139,250,0.06)");
+        wash.addColorStop(1, "rgba(251,113,133,0.07)");
+        ctx.fillStyle = wash;
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.globalCompositeOperation = "lighter";
+
+        drawStars(time);
+
+        for (const band of bands) {
+          drawAuroraBand(band, time);
+        }
+
+        drawParticles(time);
+
+        ctx.globalCompositeOperation = "source-over";
+
+        requestAnimationFrame(tick);
+      }
+
+      resize();
+
+      window.addEventListener("resize", resize);
+
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>
