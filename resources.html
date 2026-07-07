@@ -726,6 +726,34 @@
       text-transform: uppercase;
     }
 
+    :root[data-theme="dark"] .monitor-label {
+      color: rgba(255,255,255,.92);
+      text-shadow:
+        0 0 10px rgba(112,230,255,.55),
+        0 0 22px rgba(167,139,250,.38);
+    }
+
+    :root[data-theme="dark"] .metric strong {
+      color: rgba(255,255,255,.96);
+      text-shadow:
+        0 0 12px rgba(112,230,255,.58),
+        0 0 24px rgba(167,139,250,.42);
+    }
+
+    :root[data-theme="dark"] .metric span {
+      color: rgba(238,246,255,.84);
+      text-shadow:
+        0 0 8px rgba(112,230,255,.46),
+        0 0 18px rgba(167,139,250,.32);
+    }
+
+    :root[data-theme="dark"] .monitor-top,
+    :root[data-theme="dark"] .metric {
+      background:
+        radial-gradient(circle at 50% 10%, rgba(255,255,255,.18), transparent 30%),
+        linear-gradient(135deg, rgba(112,230,255,.18), rgba(167,139,250,.13), rgba(251,113,133,.10));
+    }
+
     .hero-copy {
       position: relative;
       z-index: 1;
